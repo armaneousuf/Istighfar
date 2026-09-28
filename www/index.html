@@ -505,20 +505,27 @@
         color: var(--ink);
       }
 
+      /* Today: the one raised, accented surface */
+      .ins-hero {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 18px 18px 20px;
+      }
       .ins-percent {
         font-size: 13px;
         font-weight: 600;
         color: var(--accent-color);
       }
       .ins-hero-num {
-        font-size: 52px;
+        font-size: 44px;
         font-weight: 700;
         letter-spacing: -0.035em;
         line-height: 1;
         color: var(--ink);
         margin-top: 10px;
       }
-
+      /* Standard panels */
       .ins-panel {
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid var(--line);
@@ -563,6 +570,7 @@
         margin-top: 6px;
       }
 
+      /* Rank */
       .ins-rank {
         font-size: 16px;
         font-weight: 600;
@@ -582,6 +590,7 @@
         transition: width 0.5s ease;
       }
 
+      /* Heatmap: fluid, fits any phone width without side-scrolling */
       .ins-hm {
         display: flex;
         gap: 8px;
@@ -687,25 +696,37 @@
         }
       }
 
+      /* ---- Bento: one solid accent tile, quiet tiles around it ---- */
       .ins-hero {
-        background: rgba(167, 139, 250, 0.14); /* fallback */
-        background: color-mix(in srgb, var(--accent-color) 14%, transparent);
-        border: 1px solid
-          color-mix(in srgb, var(--accent-color) 30%, transparent);
+        background: var(--accent-color);
+        border: 0;
         border-radius: 24px;
         padding: 20px;
+      }
+      .ins-hero .ins-label,
+      .ins-hero .ins-sub {
+        color: rgba(11, 10, 16, 0.72);
+      }
+      .ins-hero .ins-percent {
+        color: #0b0a10;
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .ins-hero .ins-hero-num {
+        color: #0b0a10;
+        font-size: 52px;
       }
       .ins-track {
         height: 10px;
         margin-top: 18px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(11, 10, 16, 0.2);
         overflow: hidden;
       }
       .ins-track > div {
         height: 100%;
         border-radius: 999px;
-        background: var(--accent-color);
+        background: #0b0a10;
         transition: width 0.5s ease;
       }
       .ins-grid {
@@ -746,6 +767,374 @@
       }
       @media (prefers-reduced-motion: reduce) {
         .ins-track > div {
+          transition: none;
+        }
+      }
+
+      /* ===== Shared page tokens ===== */
+      #view-home,
+      #view-prayers,
+      #view-settings {
+        --ink: #f1f5f9;
+        --ink-2: #a9b0bf;
+        --ink-3: #7f8797;
+        --line: rgba(255, 255, 255, 0.08);
+        font-variant-numeric: tabular-nums;
+      }
+      .pg-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding-bottom: 12px;
+      }
+      .pg-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-3);
+      }
+      .pg-note {
+        margin-top: 12px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--ink-3);
+      }
+      .pg-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 13px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      /* ===== Home: open layout, no tiles ===== */
+      .hp-top {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      .hp-select-wrap {
+        position: relative;
+        width: 100%;
+      }
+      .hp-select {
+        width: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 8px 36px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        border-radius: 0;
+        color: var(--ink-2);
+        font-size: 13px;
+        text-align: center;
+        text-align-last: center;
+        outline: none;
+        cursor: pointer;
+      }
+      .hp-select option {
+        background: #17141e;
+        color: #f1f5f9;
+      }
+      .hp-chevron {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        width: 14px;
+        height: 14px;
+        transform: translateY(-50%);
+        color: var(--ink-3);
+        pointer-events: none;
+      }
+      .hp-phrase {
+        text-align: center;
+        padding: 6px 8px 0;
+      }
+      .hp-arabic {
+        font-size: 32px;
+        line-height: 1.6;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .hp-trans {
+        margin-top: 2px;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      .hp-stage {
+        width: 100%;
+        margin: auto 0;
+        padding: 12px 0;
+        display: flex;
+        justify-content: center;
+      }
+      .hp-ring {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hp-ring-svg {
+        width: 288px;
+        height: 288px;
+        transform: rotate(-90deg);
+      }
+      .hp-ring-track {
+        stroke: rgba(255, 255, 255, 0.07);
+      }
+      .hp-ring-fill {
+        stroke: var(--accent-color);
+        transition: stroke-dashoffset 0.3s ease;
+      }
+      .hp-tap {
+        position: absolute;
+        width: 236px;
+        height: 236px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        outline: none;
+        background: var(--card-bg);
+        border: 1px solid var(--line);
+      }
+      .hp-tap:focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 4px;
+      }
+      .hp-count {
+        font-size: 60px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--ink);
+        transition: transform 0.1s ease;
+      }
+      .hp-unit {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      .hp-goal {
+        margin-top: 14px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent-color);
+      }
+      .hp-float {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hp-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .hp-chip,
+      .hp-icon-btn {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink);
+        background: transparent;
+      }
+      .hp-chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .hp-chip svg {
+        width: 14px;
+        height: 14px;
+        color: var(--accent-color);
+      }
+      .hp-more {
+        position: relative;
+      }
+      .hp-icon-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        cursor: pointer;
+        color: var(--ink-2);
+      }
+      .hp-icon-btn::-webkit-details-marker {
+        display: none;
+      }
+      .hp-menu {
+        position: absolute;
+        bottom: 48px;
+        right: 0;
+        z-index: 20;
+        width: 176px;
+        padding: 6px;
+        border-radius: 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--line);
+        box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+      }
+      .hp-menu-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        color: var(--ink-2);
+        font-size: 13px;
+        text-align: left;
+      }
+      .hp-menu-item svg {
+        width: 16px;
+        height: 16px;
+      }
+      .hp-menu-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .hp-menu-item.danger {
+        color: #fb7185;
+      }
+
+      /* ===== Prayers ===== */
+      .pr-next {
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line);
+      }
+      .pr-next-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 6px;
+      }
+      .pr-next-name {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: var(--ink);
+      }
+      .pr-next-time {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--ink-2);
+      }
+      .pr-countdown {
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--accent-color);
+      }
+      .pr-list {
+        margin-top: 4px;
+      }
+      .pr-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 2px;
+        border-bottom: 1px solid var(--line);
+        font-size: 15px;
+        color: var(--ink-2);
+      }
+      .pr-row.marker {
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .pr-row.next {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .pr-row.next .pr-time {
+        color: var(--accent-color);
+      }
+      .pr-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pr-tag {
+        font-style: normal;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--accent-color);
+      }
+
+      /* ===== Settings: ruled rows ===== */
+      .st-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 15px 2px;
+        border-bottom: 1px solid var(--line);
+        font-size: 15px;
+        color: var(--ink);
+        text-align: left;
+        list-style: none;
+        cursor: pointer;
+      }
+      .st-row::-webkit-details-marker {
+        display: none;
+      }
+      .st-row.danger {
+        color: #fb7185;
+      }
+      .st-val {
+        font-size: 14px;
+        color: var(--ink-3);
+      }
+      .st-chev {
+        display: inline-flex;
+        color: var(--ink-3);
+        transition: transform 0.15s ease;
+      }
+      .st-details[open] .st-chev {
+        transform: rotate(90deg);
+      }
+      .st-body {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 16px 2px 6px;
+      }
+      .st-ledger {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .st-accent {
+        color: var(--accent-color);
+      }
+      .st-gap {
+        margin-bottom: 8px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hp-ring-fill,
+        .hp-count,
+        .st-chev {
           transition: none;
         }
       }
@@ -952,119 +1341,73 @@
         id="view-home"
         class="view px-3.5 py-3 flex flex-col justify-between items-center min-h-full"
       >
-        <!-- Istighfar Selector & Phrase Display -->
-        <div class="w-full text-center space-y-1.5">
-          <div
-            class="relative inline-block w-full hide-in-focus hide-in-anonymous"
-          >
-            <select
-              id="duaSelect"
-              class="w-full bg-white/[0.03] border border-white/[0.06] theme-accent-text font-medium text-[11px] rounded-lg px-3 py-2 appearance-none focus:outline-none cursor-pointer text-center pr-8"
-            >
+        <div class="hp-top">
+          <div class="hp-select-wrap hide-in-focus hide-in-anonymous">
+            <select id="duaSelect" class="hp-select">
               <option value="1">Astaghfirullah (أَسْتَغْفِرُ اللَّهَ)</option>
               <option value="2">Astaghfirullah wa Atubu Ilaih</option>
               <option value="3">Sayyidul Istighfar (Master Invocation)</option>
               <option value="4">Rabbighfir li wa tub 'alayya</option>
             </select>
-            <div
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"
+            <svg
+              viewBox="0 0 24 24"
+              class="hp-chevron"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <svg
-                viewBox="0 0 24 24"
-                class="w-2.5 h-2.5"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </div>
+              <path d="M6 9l6 6 6-6" />
+            </svg>
           </div>
-
-          <!-- Phrase Card -->
-          <div
-            class="bg-black/20 border border-white/[0.06] rounded-2xl p-3 soft-shadow-sm backdrop-blur-sm min-h-[76px] flex flex-col justify-center"
-          >
-            <p
-              id="arabicText"
-              class="font-arabic text-2xl text-slate-100 leading-relaxed font-bold"
-            >
+          <div class="hp-phrase">
+            <p id="arabicText" class="font-arabic hp-arabic">
               أَسْتَغْفِرُ اللَّهَ
             </p>
-            <p
-              id="transliterationText"
-              class="text-[10px] text-slate-400 italic mt-0.5"
-            >
+            <p id="transliterationText" class="hp-trans">
               "I seek forgiveness from Allah"
             </p>
           </div>
         </div>
 
-        <!-- Tap Circle Region -->
-        <div
-          class="my-auto py-3 flex flex-col items-center justify-center w-full relative"
-        >
-          <div class="relative flex items-center justify-center">
-            <svg class="w-72 h-72 transform -rotate-90 drop-shadow">
+        <div class="hp-stage">
+          <div class="hp-ring">
+            <svg class="hp-ring-svg">
               <circle
+                class="hp-ring-track"
                 cx="144"
                 cy="144"
                 r="124"
-                stroke="currentColor"
-                stroke-width="10"
-                class="text-white/[0.05]"
+                stroke-width="6"
                 fill="transparent"
               />
               <circle
                 id="progressRing"
+                class="hp-ring-fill"
                 cx="144"
                 cy="144"
                 r="124"
-                stroke="currentColor"
-                stroke-width="10"
+                stroke-width="6"
                 stroke-dasharray="779.11"
                 stroke-dashoffset="779.11"
                 stroke-linecap="round"
-                class="theme-accent-text transition-all duration-300"
                 fill="transparent"
               />
             </svg>
-
-            <button
-              id="tapBtn"
-              class="tap-btn absolute w-56 h-56 rounded-full bg-black/30 border theme-accent-border soft-shadow flex flex-col items-center justify-center cursor-pointer group focus:outline-none"
-            >
-              <span
-                id="counterDisplay"
-                class="text-5xl font-extrabold tracking-tight text-slate-100 transition-transform"
-                >0</span
-              >
-              <span
-                class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-semibold"
-                >Istighfar</span
-              >
-              <span
-                id="targetLabel"
-                class="text-[11px] theme-accent-text mt-2 bg-black/40 px-3 py-0.5 rounded-full border border-white/[0.08] font-semibold"
-              >
-                0% • Goal 1,000
-              </span>
+            <button id="tapBtn" class="tap-btn hp-tap">
+              <span id="counterDisplay" class="hp-count">0</span>
+              <span class="hp-unit">Istighfar</span>
+              <span id="targetLabel" class="hp-goal">0% • Goal 1,000</span>
             </button>
-
-            <div
-              id="floatContainer"
-              class="absolute inset-0 pointer-events-none flex items-center justify-center z-20"
-            ></div>
+            <div id="floatContainer" class="hp-float"></div>
           </div>
         </div>
 
-        <!-- Minimal controls: keep the goal visible, tuck destructive actions away -->
         <div class="w-full hide-in-focus">
-          <div class="flex items-center justify-center gap-2">
+          <div class="hp-controls">
             <div class="hide-in-anonymous">
-              <button id="goalChipBtn" class="goal-chip tap-btn">
+              <button id="goalChipBtn" class="hp-chip tap-btn">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -1076,40 +1419,25 @@
                   <circle cx="12" cy="12" r="1" />
                 </svg>
                 <span>Goal: <span id="goalChipValue">1,000</span></span>
-                <svg
-                  viewBox="0 0 24 24"
-                  class="w-2.5 h-2.5 text-slate-500"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
               </button>
             </div>
-            <details class="relative">
-              <summary
-                class="list-none w-8 h-8 rounded-lg bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.06] text-slate-400 hover:text-slate-100 transition flex items-center justify-center cursor-pointer"
-                aria-label="Session actions"
-              >
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor">
+            <details class="hp-more">
+              <summary class="hp-icon-btn" aria-label="Session actions">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                >
                   <circle cx="5" cy="12" r="1.5" />
                   <circle cx="12" cy="12" r="1.5" />
                   <circle cx="19" cy="12" r="1.5" />
                 </svg>
               </summary>
-              <div
-                class="absolute bottom-10 right-0 z-20 w-40 p-1.5 rounded-xl bg-transparent border border-white/[0.1] soft-shadow space-y-1"
-              >
-                <button
-                  id="undoBtn"
-                  class="w-full flex items-center gap-2 py-2 px-2.5 hover:bg-white/[0.06] text-slate-300 text-[10px] font-medium rounded-lg transition text-left"
-                >
+              <div class="hp-menu">
+                <button id="undoBtn" class="hp-menu-item">
                   <svg
                     viewBox="0 0 24 24"
-                    class="w-3 h-3"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
@@ -1123,11 +1451,10 @@
                 </button>
                 <button
                   id="resetBtn"
-                  class="hide-in-anonymous w-full flex items-center gap-2 py-2 px-2.5 hover:bg-rose-500/10 text-rose-400/80 text-[10px] font-medium rounded-lg transition text-left"
+                  class="hide-in-anonymous hp-menu-item danger"
                 >
                   <svg
                     viewBox="0 0 24 24"
-                    class="w-3 h-3"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
@@ -1144,110 +1471,59 @@
       </main>
 
       <!-- ============ PRAYERS VIEW ============ -->
-      <div id="view-prayers" class="view hidden px-3.5 py-4 space-y-3">
-        <div class="flex items-center justify-between">
-          <h2
-            class="text-[13px] font-semibold text-slate-100 flex items-center gap-1.5"
-          >
+      <div id="view-prayers" class="view hidden px-3.5 py-3">
+        <div class="pg-stack">
+          <header class="ins-head">
+            <h2 class="ins-title">Prayer times</h2>
+            <span class="ins-date">Today</span>
+          </header>
+
+          <section class="pr-next">
+            <p class="pg-label">Next prayer</p>
+            <div class="pr-next-row">
+              <p id="nextPrayerName" class="pr-next-name">Prayer times</p>
+              <p id="nextPrayerTime" class="pr-next-time">--:--</p>
+            </div>
+            <p id="nextPrayerCountdown" class="pr-countdown">
+              Set your location to begin
+            </p>
+          </section>
+
+          <section>
+            <div class="ins-row">
+              <span class="pg-label">Today's schedule</span>
+              <span id="prayerLocation" class="ins-vs">Location not set</span>
+            </div>
+            <div id="prayerList" class="pr-list">
+              <div class="pr-row">
+                <span class="pr-name"
+                  >Set your location to view prayer times.</span
+                >
+              </div>
+            </div>
+            <p id="prayerStatus" class="pg-note">
+              Prayer times are calculated locally using the Karachi method and
+              Hanafi Asr.
+            </p>
+          </section>
+
+          <button id="locationPermBtn" class="pg-btn">
             <svg
               viewBox="0 0 24 24"
-              class="w-3.5 h-3.5 theme-accent-text"
+              width="16"
+              height="16"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="M12 2l2 3h-4l2-3z" />
-              <path d="M5 21V11a7 7 0 0114 0v10" />
-              <path d="M9 21v-5a3 3 0 016 0v5" />
-              <path d="M3 21h18" />
+              <path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z" />
+              <circle cx="12" cy="10" r="3" />
             </svg>
-            Prayer Times
-          </h2>
-          <span
-            class="text-[9px] text-slate-500 font-medium bg-white/[0.04] border border-white/[0.06] px-2 py-1 rounded-full"
-            >Today</span
-          >
+            <span>Use current location</span>
+          </button>
         </div>
-
-        <section
-          class="rounded-2xl border theme-accent-border bg-black/20 p-4 soft-shadow-sm"
-        >
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p
-                class="text-[9px] uppercase tracking-[0.16em] theme-accent-text font-semibold"
-              >
-                Next prayer
-              </p>
-              <p
-                id="nextPrayerName"
-                class="text-[24px] font-semibold text-slate-100 mt-1"
-              >
-                Prayer times
-              </p>
-            </div>
-            <p
-              id="nextPrayerTime"
-              class="text-[17px] font-medium text-slate-100 font-mono"
-            >
-              --:--
-            </p>
-          </div>
-          <div
-            class="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between"
-          >
-            <p id="nextPrayerCountdown" class="text-[10px] text-slate-400">
-              Set your location to begin
-            </p>
-            <span class="text-[9px] theme-accent-text">on device</span>
-          </div>
-        </section>
-
-        <div class="flex items-center justify-between px-0.5">
-          <p class="text-[10px] font-semibold text-slate-300">
-            Today's schedule
-          </p>
-          <p id="prayerLocation" class="text-[9px] text-slate-500">
-            Location not set
-          </p>
-        </div>
-
-        <div id="prayerList" class="space-y-1.5">
-          <div class="prayer-row font-sans">
-            <span class="text-[11px] text-slate-400"
-              >Set your location to view prayer times.</span
-            >
-          </div>
-        </div>
-
-        <p
-          id="prayerStatus"
-          class="text-[9px] text-slate-500 text-center leading-relaxed px-2"
-        >
-          Prayer times are calculated locally using the Karachi method and
-          Hanafi Asr.
-        </p>
-
-        <button
-          id="locationPermBtn"
-          class="w-full py-2.5 px-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-300 text-[11px] font-medium rounded-xl transition flex items-center justify-center gap-1.5"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            class="w-3.5 h-3.5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0116 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <span>Use current location</span>
-        </button>
       </div>
 
       <!-- ============ INSIGHTS VIEW ============ -->
@@ -1357,219 +1633,96 @@
       </div>
 
       <!-- ============ SETTINGS VIEW ============ -->
-      <div id="view-settings" class="view hidden px-3.5 py-3 space-y-4">
-        <h2
-          class="text-[13px] font-semibold text-slate-100 flex items-center gap-1.5"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            class="w-3.5 h-3.5 theme-accent-text"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="12" cy="12" r="3" />
-            <path
-              d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"
-            />
-          </svg>
-          Settings
-        </h2>
+      <div id="view-settings" class="view hidden px-3.5 py-3">
+        <div class="pg-stack">
+          <header class="ins-head"><h2 class="ins-title">Settings</h2></header>
 
-        <!-- Preferences -->
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] text-slate-300 flex items-center gap-1.5">
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3 h-3 text-slate-500"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M11 5L6 9H2v6h4l5 4V5z" />
-              <path d="M15.5 8.5a5 5 0 010 7" />
-            </svg>
-            Tap sound
-          </span>
-          <button
-            id="soundToggle"
-            class="switch-track on"
-            aria-label="Toggle sound"
-          >
-            <span class="switch-thumb"></span>
-          </button>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] text-slate-300 flex items-center gap-1.5">
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3 h-3 text-slate-500"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M8 2v5M16 2v5M4 12a8 8 0 0016 0V7H4v5a8 8 0 004 7z" />
-              <path d="M7 16h.01M17 16h.01" />
-            </svg>
-            Haptic feedback
-          </span>
-          <button
-            id="hapticsToggle"
-            class="switch-track on"
-            aria-label="Toggle haptic feedback"
-          >
-            <span class="switch-thumb"></span>
-          </button>
-        </div>
-        <details
-          class="group rounded-xl bg-black/20 border border-white/[0.05]"
-        >
-          <summary
-            class="list-none cursor-pointer px-3 py-3 flex items-center justify-between text-[11px] font-semibold text-slate-200"
-          >
-            <span class="flex items-center gap-1.5">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-3.5 h-3.5 text-orange-400"
-                fill="currentColor"
+          <section>
+            <p class="pg-label">Preferences</p>
+            <div class="st-row">
+              <span>Tap sound</span>
+              <button
+                id="soundToggle"
+                class="switch-track on"
+                aria-label="Toggle sound"
               >
-                <path
-                  d="M12 23c-4.97 0-9-3.6-9-8 0-3.2 2-6 5-7.5-.5 1.5-.2 3 .8 4 1-3 3-5.5 5.5-7-.5 2 .5 4 2 5.5.5-1.5 1.2-3 2.2-4C19.5 8 21 11 21 14c0 4.97-4.03 9-9 9z"
-                />
-              </svg>
-              Streaks & achievements
-            </span>
-            <span
-              class="text-slate-500 transition-transform group-open:rotate-90"
-              >›</span
-            >
-          </summary>
-          <div class="px-3 pb-3 space-y-3 border-t border-white/[0.05] pt-3">
-            <div class="grid grid-cols-3 gap-1.5 text-center">
-              <div
-                class="bg-white/[0.025] border border-white/[0.05] rounded-lg p-2"
-              >
-                <div
-                  id="streakBigNumber"
-                  class="text-[16px] font-bold text-slate-100"
-                >
-                  0
-                </div>
-                <div class="text-[7px] text-slate-500 uppercase mt-0.5">
-                  Current days
-                </div>
-              </div>
-              <div
-                class="bg-white/[0.025] border border-white/[0.05] rounded-lg p-2"
-              >
-                <div
-                  id="streakBestDisplay"
-                  class="text-[16px] font-bold theme-accent-text"
-                >
-                  0
-                </div>
-                <div class="text-[7px] text-slate-500 uppercase mt-0.5">
-                  Best streak
-                </div>
-              </div>
-              <div
-                class="bg-white/[0.025] border border-white/[0.05] rounded-lg p-2"
-              >
-                <div
-                  id="streak1kDisplay"
-                  class="text-[16px] font-bold text-slate-100"
-                >
-                  0
-                </div>
-                <div class="text-[7px] text-slate-500 uppercase mt-0.5">
-                  1k milestones
-                </div>
-              </div>
+                <span class="switch-thumb"></span>
+              </button>
             </div>
-            <div class="space-y-1.5">
-              <div
-                class="text-[8px] text-slate-500 uppercase tracking-wide font-semibold"
+            <div class="st-row">
+              <span>Haptic feedback</span>
+              <button
+                id="hapticsToggle"
+                class="switch-track on"
+                aria-label="Toggle haptic feedback"
               >
-                Recent 7 days
-              </div>
-              <div
-                id="streakWeekRow"
-                class="flex justify-between gap-1.5"
-              ></div>
+                <span class="switch-thumb"></span>
+              </button>
             </div>
-            <div class="space-y-1.5">
-              <div class="text-[10px] font-semibold text-slate-300">
-                Achievements
-              </div>
-              <div id="badgesContainer" class="space-y-1.5"></div>
-            </div>
-            <p class="text-[9px] text-slate-500 leading-relaxed">
-              A streak grows for every consecutive day with at least one
-              Istighfar.
-            </p>
-          </div>
-        </details>
+          </section>
 
-        <!-- Data Management -->
-        <div class="space-y-2 pt-3 border-t border-white/[0.06]">
-          <div
-            class="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3 h-3 text-slate-500"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <ellipse cx="12" cy="5" rx="8" ry="3" />
-              <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
-              <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" />
-            </svg>
-            Data
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <button
-              id="exportDataBtn"
-              class="py-2 px-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-200 text-[11px] font-medium rounded-xl transition flex items-center justify-center gap-1.5"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                class="w-3 h-3 text-sky-400"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M12 3v13" />
-                <path d="M7 12l5 5 5-5" />
-                <path d="M4 21h16" />
-              </svg>
-              <span>Export</span>
+          <section>
+            <p class="pg-label">Progress</p>
+            <details class="st-details">
+              <summary class="st-row">
+                <span>Streaks &amp; achievements</span
+                ><span class="st-chev"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M9 18l6-6-6-6" /></svg
+                ></span>
+              </summary>
+              <div class="st-body">
+                <div class="st-ledger">
+                  <div>
+                    <div id="streakBigNumber" class="ins-mid">0</div>
+                    <div class="ins-vs">Current days</div>
+                  </div>
+                  <div>
+                    <div id="streakBestDisplay" class="ins-mid st-accent">
+                      0
+                    </div>
+                    <div class="ins-vs">Best streak</div>
+                  </div>
+                  <div>
+                    <div id="streak1kDisplay" class="ins-mid">0</div>
+                    <div class="ins-vs">1k milestones</div>
+                  </div>
+                </div>
+                <div>
+                  <p class="ins-vs st-gap">Recent 7 days</p>
+                  <div
+                    id="streakWeekRow"
+                    class="flex justify-between gap-1.5"
+                  ></div>
+                </div>
+                <div>
+                  <p class="ins-vs st-gap">Achievements</p>
+                  <div id="badgesContainer" class="space-y-1.5"></div>
+                </div>
+                <p class="pg-note">
+                  A streak grows for every consecutive day with at least one
+                  Istighfar.
+                </p>
+              </div>
+            </details>
+          </section>
+
+          <section>
+            <p class="pg-label">Data</p>
+            <button id="exportDataBtn" class="st-row">
+              <span>Export backup</span>
             </button>
-            <button
-              id="importDataBtn"
-              class="py-2 px-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-200 text-[11px] font-medium rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                class="w-3 h-3 text-violet-400"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M12 3v13" />
-                <path d="M7 8l5-5 5 5" />
-                <path d="M4 21h16" />
-              </svg>
-              <span>Import</span>
+            <button id="importDataBtn" class="st-row">
+              <span>Import backup</span>
             </button>
             <input
               type="file"
@@ -1577,107 +1730,53 @@
               accept=".json"
               class="hidden"
             />
-          </div>
+            <button id="fullResetBtn" class="st-row danger">
+              <span>Erase all data</span>
+            </button>
+          </section>
 
-          <button
-            id="fullResetBtn"
-            class="w-full mt-2 py-2 px-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 text-[11px] font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3 h-3"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M3 6h18" />
-              <path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
-              <path d="M10 11v6M14 11v6" />
-            </svg>
-            <span>Full Reset (Wipe All Data)</span>
-          </button>
-        </div>
-
-        <!-- More -->
-        <div class="space-y-2 pt-3 border-t border-white/[0.06]">
-          <div
-            class="flex items-center justify-between px-1 pb-1 text-[10px] text-slate-500"
-          >
-            <span>App version</span><span>3.9.9.31</span>
-          </div>
-          <div
-            class="flex items-center justify-between px-1 pb-1 text-[10px] text-slate-500"
-          >
-            <span>Last update</span><span id="last-update-days"></span>
-          </div>
-          <button
-            id="infoBtn"
-            class="w-full py-2.5 px-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-200 text-[11px] font-medium rounded-xl transition flex items-center justify-between group"
-          >
-            <span class="flex items-center gap-1.5">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-3.5 h-3.5 theme-accent-text"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"
-                />
-              </svg>
-              <span>Virtues of Istighfar</span>
-            </span>
-            <svg
-              viewBox="0 0 24 24"
-              class="w-2.5 h-2.5 text-slate-500 group-hover:text-slate-300 transition"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
-
-          <button
-            id="openAboutModalBtn"
-            class="w-full py-2.5 px-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-200 text-[11px] font-medium rounded-xl transition flex items-center justify-between group"
-          >
-            <span class="flex items-center gap-1.5">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-3.5 h-3.5 theme-accent-text"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"
-                />
-              </svg>
-              <span>About</span>
-            </span>
-            <svg
-              viewBox="0 0 24 24"
-              class="w-2.5 h-2.5 text-slate-500 group-hover:text-slate-300 transition"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
+          <section>
+            <p class="pg-label">About</p>
+            <div class="st-row">
+              <span>App version</span><span class="st-val">4.0.0.33</span>
+            </div>
+            <div class="st-row">
+              <span>Last update</span
+              ><span id="last-update-days" class="st-val"></span>
+            </div>
+            <button id="infoBtn" class="st-row">
+              <span>Virtues of Istighfar</span
+              ><span class="st-chev"
+                ><svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" /></svg
+              ></span>
+            </button>
+            <button id="openAboutModalBtn" class="st-row">
+              <span>About</span
+              ><span class="st-chev"
+                ><svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" /></svg
+              ></span>
+            </button>
+          </section>
         </div>
       </div>
     </div>

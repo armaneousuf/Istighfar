@@ -1408,24 +1408,9 @@ function renderPrayerTimes(latitude, longitude) {
     .map(([name, time]) => {
       const isMarker = name === "Sunrise" || name === "Sunset";
       const isNext = name === next[0] && time.getTime() === next[1].getTime();
-      return `<div class="prayer-row ${isMarker ? "opacity-60" : ""} ${
-        isNext ? "border theme-accent-border bg-violet-400/[0.08]" : ""
-      }">
-      <span class="flex items-center gap-2.5 text-[11px] font-medium ${
-        isNext ? "text-slate-100" : "text-slate-300"
-      }">
-        <span class="w-1.5 h-1.5 rounded-full ${
-          isMarker ? "bg-amber-300" : "theme-accent-bg"
-        }"></span>${name}${
-        isNext
-          ? '<span class="text-[8px] theme-accent-text uppercase tracking-wide">Next</span>'
-          : ""
-      }
-      </span>
-      <span class="text-[11px] ${
-        isNext ? "text-slate-100" : "text-slate-400"
-      } font-mono">${formatPrayerTime(time)}</span>
-    </div>`;
+      return `<div class="pr-row${isMarker ? " marker" : ""}${isNext ? " next" : ""}"><span class="pr-name">${name}${
+        isNext ? '<em class="pr-tag">Next</em>' : ""
+      }</span><span class="pr-time">${formatPrayerTime(time)}</span></div>`;
     })
     .join("");
   prayerStatus.textContent =
@@ -1822,7 +1807,7 @@ importFileInput.addEventListener("change", (e) => {
 
 // Bump this to the date of each release; the settings label derives
 // its "X days ago" text from this automatically.
-const APP_LAST_UPDATED = "2026-09-25";
+const APP_LAST_UPDATED = "2026-09-28";
 
 function updateLastUpdatedLabel() {
   if (!lastUpdateLabel) return;
