@@ -437,7 +437,7 @@
         padding: 10px 12px;
         border-radius: 0.75rem;
         background: rgba(255, 255, 255, 0.025);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(167, 139, 250, 0.1);
         font-family: "Inter", sans-serif;
       }
 
@@ -446,7 +446,7 @@
         --ink: #f1f5f9;
         --ink-2: #a9b0bf;
         --ink-3: #7f8797;
-        --line: rgba(255, 255, 255, 0.07);
+        --line: rgba(167, 139, 250, 0.1);
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -520,8 +520,12 @@
       }
       /* Standard panels */
       .ins-panel {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--line);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid rgba(167, 139, 250, 0.1);
         border-radius: 16px;
         padding: 16px;
       }
@@ -729,8 +733,12 @@
         gap: 8px;
         min-width: 0;
         padding: 14px 16px;
-        background: var(--app-bg);
-        border: 1px solid var(--line);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.045),
+          rgba(255, 255, 255, 0.015)
+        );
+        border: 1px solid rgba(167, 139, 250, 0.1);
         border-radius: 20px;
       }
       .ins-tile.wide {
@@ -766,7 +774,7 @@
         --ink: #f1f5f9;
         --ink-2: #a9b0bf;
         --ink-3: #7f8797;
-        --line: rgba(255, 255, 255, 0.08);
+        --line: rgba(167, 139, 250, 0.1);
         font-variant-numeric: tabular-nums;
       }
       .pg-stack {
@@ -1136,7 +1144,7 @@
     <!-- App Loading State (For IndexedDB initialization) -->
     <div
       id="appLoadingState"
-      class="fixed inset-0 bg-[#06040f] z-[9999] flex flex-col items-center justify-center transition-opacity duration-300"
+      class="fixed inset-0 bg-[var(--app-bg)] z-[9999] flex flex-col items-center justify-center transition-opacity duration-300"
     >
       <div id="loadingSpinner" class="flex flex-col items-center">
         <svg
@@ -1728,7 +1736,7 @@
           <section>
             <p class="pg-label">About</p>
             <div class="st-row">
-              <span>App version</span><span class="st-val">4.0.6.39</span>
+              <span>App version</span><span class="st-val">4.0.7.40</span>
             </div>
             <div class="st-row">
               <span>Last update</span
