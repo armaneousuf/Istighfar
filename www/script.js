@@ -167,7 +167,6 @@ const targetLabel = document.getElementById("targetLabel");
 const progressRing = document.getElementById("progressRing");
 const tapBtn = document.getElementById("tapBtn");
 const duaSelect = document.getElementById("duaSelect");
-const arabicText = document.getElementById("arabicText");
 const transliterationText = document.getElementById("transliterationText");
 const todayTotalDisplay = document.getElementById("todayTotalDisplay");
 const lifetimeTotalDisplay = document.getElementById("lifetimeTotalDisplay");
@@ -889,7 +888,9 @@ function accentRgba(alpha) {
     .getPropertyValue("--accent-color")
     .trim();
   const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(raw);
-  const [r, g, b] = m ? m.slice(1).map((x) => parseInt(x, 16)) : [167, 139, 250];
+  const [r, g, b] = m
+    ? m.slice(1).map((x) => parseInt(x, 16))
+    : [167, 139, 250];
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
@@ -1408,7 +1409,9 @@ function renderPrayerTimes(latitude, longitude) {
     .map(([name, time]) => {
       const isMarker = name === "Sunrise" || name === "Sunset";
       const isNext = name === next[0] && time.getTime() === next[1].getTime();
-      return `<div class="pr-row${isMarker ? " marker" : ""}${isNext ? " next" : ""}"><span class="pr-name">${name}${
+      return `<div class="pr-row${isMarker ? " marker" : ""}${
+        isNext ? " next" : ""
+      }"><span class="pr-name">${name}${
         isNext ? '<em class="pr-tag">Next</em>' : ""
       }</span><span class="pr-time">${formatPrayerTime(time)}</span></div>`;
     })
@@ -1602,7 +1605,6 @@ duaSelect.addEventListener("change", (e) => {
   state.selectedDua = val;
   const selected = duaPhrases[val];
   if (selected) {
-    arabicText.textContent = selected.arabic;
     transliterationText.textContent = selected.trans;
   }
   saveState();
@@ -1779,7 +1781,6 @@ importFileInput.addEventListener("change", (e) => {
 
         if (state.selectedDua && duaPhrases[state.selectedDua]) {
           duaSelect.value = state.selectedDua;
-          arabicText.textContent = duaPhrases[state.selectedDua].arabic;
           transliterationText.textContent = duaPhrases[state.selectedDua].trans;
         }
 
@@ -1843,7 +1844,6 @@ async function initApp() {
 
     if (state.selectedDua && duaPhrases[state.selectedDua]) {
       duaSelect.value = state.selectedDua;
-      arabicText.textContent = duaPhrases[state.selectedDua].arabic;
       transliterationText.textContent = duaPhrases[state.selectedDua].trans;
     }
 
