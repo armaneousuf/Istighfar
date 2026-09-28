@@ -104,6 +104,11 @@
         background-attachment: fixed;
       }
 
+      #appLoadingState {
+        background-color: #0b0a10;
+        background-color: var(--app-bg);
+      }
+
       .glow-pulse {
         box-shadow: 0 0 42px var(--accent-glow);
       }
@@ -1192,7 +1197,7 @@
     <!-- App Loading State (For IndexedDB initialization) -->
     <div
       id="appLoadingState"
-      class="fixed inset-0 bg-[var(--app-bg)] z-[9999] flex flex-col items-center justify-center transition-opacity duration-300"
+      class="fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-300"
     >
       <div id="loadingSpinner" class="flex flex-col items-center">
         <svg
@@ -1796,7 +1801,7 @@
           <section>
             <p class="pg-label">About</p>
             <div class="st-row">
-              <span>App version</span><span class="st-val">4.0.9.42</span>
+              <span>App version</span><span class="st-val">4.1.0.43</span>
             </div>
             <div class="st-row">
               <span>Last update</span

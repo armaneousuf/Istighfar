@@ -1836,6 +1836,8 @@ async function initApp() {
   const loadingError = document.getElementById("loadingError");
   const loadingErrorText = document.getElementById("loadingErrorText");
 
+  const startTime = Date.now();
+
   try {
     state = await loadState();
     updateStreak();
@@ -1861,10 +1863,17 @@ async function initApp() {
     updateLastUpdatedLabel();
 
     if (loadingState) {
-      loadingState.style.opacity = "0";
+      const elapsed = Date.now() - startTime;
+      const minDisplay = 400; 
+      const delay = Math.max(0, minDisplay - elapsed);
+
       setTimeout(() => {
-        loadingState.classList.add("hidden");
-      }, 300);
+        loadingState.style.pointerEvents = "none";
+        loadingState.style.opacity = "0";
+        setTimeout(() => {
+          loadingState.classList.add("hidden");
+        }, 300);
+      }, delay);
     }
   } catch (err) {
     if (loadingSpinner) loadingSpinner.classList.add("hidden");
