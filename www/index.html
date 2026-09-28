@@ -762,6 +762,53 @@
       .ins-tile .ins-hm {
         margin-top: 6px;
       }
+      .ins-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .ins-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .ins-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        min-width: 0;
+        padding: 12px 0;
+      }
+      .ins-stat:nth-child(odd) {
+        padding-right: 16px;
+      }
+      .ins-stat:nth-child(even) {
+        padding-left: 16px;
+        border-left: 1px solid var(--line);
+      }
+      .ins-stat:nth-child(n + 3) {
+        /* border-top: 1px solid var(--line); */
+        padding-top: 16px;
+      }
+      .ins-stats .ins-stat:first-child,
+      .ins-stats .ins-stat:nth-child(2) {
+        padding-top: 0;
+      }
+      .ins-stats .ins-stat:nth-child(3),
+      .ins-stats .ins-stat:nth-child(4) {
+        padding-bottom: 0;
+      }
+      .ins-half {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        min-width: 0;
+      }
+      .ins-half + .ins-half {
+        border-left: 1px solid var(--line);
+        padding-left: 16px;
+      }
       @media (prefers-reduced-motion: reduce) {
         .ins-track > div {
           transition: none;
@@ -1546,28 +1593,36 @@
           </section>
 
           <div class="ins-grid">
-            <section class="ins-tile">
-              <span class="ins-label">Last 7 days</span>
-              <div id="insightWeekTotal" class="ins-big">0</div>
-              <span class="ins-compare">
-                <span id="insightWeekChange" class="ins-trend" data-trend="flat"
-                  >No change</span
-                >
-                <span class="ins-vs">vs previous</span>
-              </span>
-            </section>
-            <section class="ins-tile">
-              <span class="ins-label">This month</span>
-              <div id="insightMonthTotal" class="ins-big">0</div>
-              <span class="ins-compare">
-                <span
-                  id="insightMonthChange"
-                  class="ins-trend"
-                  data-trend="flat"
-                  >No change</span
-                >
-                <span class="ins-vs">vs last month</span>
-              </span>
+            <section class="ins-tile wide">
+              <div class="ins-split">
+                <div class="ins-half">
+                  <span class="ins-label">Last 7 days</span>
+                  <div id="insightWeekTotal" class="ins-big">0</div>
+                  <span class="ins-compare">
+                    <span
+                      id="insightWeekChange"
+                      class="ins-trend"
+                      data-trend="flat"
+                      >No change</span
+                    >
+                    <span class="ins-vs">vs previous</span>
+                  </span>
+                </div>
+
+                <div class="ins-half">
+                  <span class="ins-label">This month</span>
+                  <div id="insightMonthTotal" class="ins-big">0</div>
+                  <span class="ins-compare">
+                    <span
+                      id="insightMonthChange"
+                      class="ins-trend"
+                      data-trend="flat"
+                      >No change</span
+                    >
+                    <span class="ins-vs">vs last month</span>
+                  </span>
+                </div>
+              </div>
             </section>
 
             <section class="ins-tile wide">
@@ -1577,21 +1632,25 @@
               </div>
             </section>
 
-            <section class="ins-tile">
-              <span class="ins-label">Best day</span>
-              <span id="insightBestDay" class="ins-mid">0</span>
-            </section>
-            <section class="ins-tile">
-              <span class="ins-label">Average per day</span>
-              <span id="insightAvgTaps" class="ins-mid">0</span>
-            </section>
-            <section class="ins-tile">
-              <span class="ins-label">Day streak</span>
-              <span id="statStreak" class="ins-mid">0</span>
-            </section>
-            <section class="ins-tile">
-              <span class="ins-label">Lifetime total</span>
-              <span id="lifetimeTotalDisplay" class="ins-mid">0</span>
+            <section class="ins-tile wide">
+              <div class="ins-stats">
+                <div class="ins-stat">
+                  <span class="ins-label">Best day</span>
+                  <span id="insightBestDay" class="ins-mid">0</span>
+                </div>
+                <div class="ins-stat">
+                  <span class="ins-label">Average per day</span>
+                  <span id="insightAvgTaps" class="ins-mid">0</span>
+                </div>
+                <div class="ins-stat">
+                  <span class="ins-label">Day streak</span>
+                  <span id="statStreak" class="ins-mid">0</span>
+                </div>
+                <div class="ins-stat">
+                  <span class="ins-label">Lifetime total</span>
+                  <span id="lifetimeTotalDisplay" class="ins-mid">0</span>
+                </div>
+              </div>
             </section>
 
             <section class="ins-tile wide">
@@ -1737,7 +1796,7 @@
           <section>
             <p class="pg-label">About</p>
             <div class="st-row">
-              <span>App version</span><span class="st-val">4.0.8.41</span>
+              <span>App version</span><span class="st-val">4.0.9.42</span>
             </div>
             <div class="st-row">
               <span>Last update</span
