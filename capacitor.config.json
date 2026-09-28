@@ -2,6 +2,7 @@
   "appId": "com.istighfar.app",
   "appName": "Istighfar",
   "webDir": "www",
+  "backgroundColor": "#0b0a10",
   "plugins": {
     "SystemBars": {
       "insetsHandling": "css",
