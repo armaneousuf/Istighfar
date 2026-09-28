@@ -102,7 +102,7 @@ function readCurrent() {
   const versionName = gradle.match(/versionName\s+"([^"]+)"/);
   const versionCode = gradle.match(/versionCode\s+(\d+)/);
   const htmlVersion = html.match(
-    /(<span>App version<\/span><span>)([^<]*)(<\/span>)/,
+    /(<span>App version<\/span><span[^>]*>)([^<]*)(<\/span>)/,
   );
   const pkgVersion = pkgRaw.match(/"version"\s*:\s*"([^"]+)"/);
   const lastUpdated = script.match(/const APP_LAST_UPDATED\s*=\s*"([^"]*)"/);
@@ -241,7 +241,7 @@ async function main() {
 
   const newHtml = replaceOnce(
     cur.raw.html,
-    /(<span>App version<\/span><span>)[^<]*(<\/span>)/,
+    /(<span>App version<\/span><span[^>]*>)[^<]*(<\/span>)/,
     (m, a, b) => `${a}${version}${b}`,
     "'App version' label",
   );
