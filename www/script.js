@@ -874,13 +874,23 @@ function getMonthTotal(monthOffset = 0) {
   return total;
 }
 
-function formatChange(current, previous) {
-  const difference = current - previous;
-  if (difference === 0) return "Same as previous period";
-  const direction = difference > 0 ? "more" : "less";
-  return `${difference > 0 ? "+" : "−"}${Math.abs(
-    difference,
-  ).toLocaleString()} ${direction}`;
+function setChange(el, current, previous) {
+  if (!el) return;
+  const diff = current - previous;
+  el.dataset.trend = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+  el.textContent =
+    diff === 0
+      ? "No change"
+      : `${diff > 0 ? "+" : "−"}${Math.abs(diff).toLocaleString()}`;
+}
+
+function accentRgba(alpha) {
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue("--accent-color")
+    .trim();
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(raw);
+  const [r, g, b] = m ? m.slice(1).map((x) => parseInt(x, 16)) : [167, 139, 250];
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function renderWeeklyChart() {
@@ -893,17 +903,22 @@ function renderWeeklyChart() {
 
   getRecentDays(7).forEach(({ date: d, count }) => {
     weeklySum += count;
-    const dayName = d.toLocaleDateString("en-US", { weekday: "narrow" });
-    days.push(dayName);
+    days.push(d.toLocaleDateString("en-US", { weekday: "short" }));
     counts.push(count);
   });
 
   if (chartTotalLabel)
     chartTotalLabel.textContent = `${weeklySum.toLocaleString()} in 7 days`;
 
+  // Today (last bar) in full accent, earlier days softer
+  const barColors = counts.map((_, i) =>
+    i === counts.length - 1 ? accentRgba(1) : accentRgba(0.4),
+  );
+
   if (weeklyChartInstance) {
     weeklyChartInstance.data.labels = days;
     weeklyChartInstance.data.datasets[0].data = counts;
+    weeklyChartInstance.data.datasets[0].backgroundColor = barColors;
     weeklyChartInstance.update();
   } else {
     if (typeof Chart === "undefined") return;
@@ -915,12 +930,13 @@ function renderWeeklyChart() {
         datasets: [
           {
             data: counts,
-            backgroundColor: "rgba(167, 139, 250, 0.85)",
-            hoverBackgroundColor: "rgba(196, 181, 253, 1)",
-            borderRadius: 4,
+            backgroundColor: barColors,
+            hoverBackgroundColor: accentRgba(1),
+            borderRadius: 5,
             borderSkipped: false,
             barThickness: "flex",
-            maxBarThickness: 24,
+            maxBarThickness: 28,
+            minBarLength: 3,
           },
         ],
       },
@@ -930,17 +946,18 @@ function renderWeeklyChart() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: "rgba(18, 14, 34, 0.95)", // --card-bg based
-            borderColor: "rgba(167, 139, 250, 0.25)", // --border-color
+            backgroundColor: "#0f0d17",
+            borderColor: "rgba(255, 255, 255, 0.1)",
             borderWidth: 1,
-            titleColor: "rgba(167, 139, 250, 0.7)", // accent muted
-            bodyColor: "#e9e4ff", // soft violet-white
+            titleColor: "#a9b0bf",
+            bodyColor: "#f1f5f9",
+            titleFont: { family: "Inter", size: 11, weight: "500" },
+            bodyFont: { family: "Inter", size: 12, weight: "600" },
             padding: 8,
-            cornerRadius: 6,
+            cornerRadius: 8,
             displayColors: false,
             callbacks: {
-              title: () => null,
-              label: (ctx) => `${ctx.raw.toLocaleString()} taps`,
+              label: (c) => `${c.raw.toLocaleString()} Istighfar`,
             },
           },
         },
@@ -948,8 +965,8 @@ function renderWeeklyChart() {
           x: {
             grid: { display: false, drawBorder: false },
             ticks: {
-              color: "rgba(167, 139, 250, 0.55)", // accent muted
-              font: { size: 9, family: "monospace" },
+              color: "#7f8797",
+              font: { size: 11, family: "Inter" },
             },
             border: { display: false },
           },
@@ -1011,18 +1028,10 @@ function renderInsightSummary() {
   if (insightTodayBar) insightTodayBar.style.width = `${percentage}%`;
   if (insightWeekTotal)
     insightWeekTotal.textContent = weeklyTotal.toLocaleString();
-  if (insightWeekChange)
-    insightWeekChange.textContent = formatChange(
-      weeklyTotal,
-      previousWeeklyTotal,
-    );
+  setChange(insightWeekChange, weeklyTotal, previousWeeklyTotal);
   if (insightMonthTotal)
     insightMonthTotal.textContent = monthTotal.toLocaleString();
-  if (insightMonthChange)
-    insightMonthChange.textContent = formatChange(
-      monthTotal,
-      previousMonthTotal,
-    );
+  setChange(insightMonthChange, monthTotal, previousMonthTotal);
   if (insightBestDay) insightBestDay.textContent = bestDay.toLocaleString();
   if (insightAvgTaps) insightAvgTaps.textContent = avgTaps.toLocaleString();
   if (insightRhythmLabel)

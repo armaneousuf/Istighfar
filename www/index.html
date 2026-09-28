@@ -442,10 +442,312 @@
         font-family: "Inter", sans-serif;
       }
 
-      /* Insight view */
-      .insight-stat {
-        background: rgba(255, 255, 255, 0.025);
-        border: 1px solid rgba(255, 255, 255, 0.055);
+      /* ===== Insights view ===== */
+      .ins-stack {
+        --ink: #f1f5f9;
+        --ink-2: #a9b0bf;
+        --ink-3: #7f8797;
+        --line: rgba(255, 255, 255, 0.07);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-bottom: 8px;
+        font-variant-numeric: tabular-nums;
+      }
+      .ins-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 2px 2px 4px;
+      }
+      .ins-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+      .ins-date {
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      .ins-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .ins-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-2);
+      }
+      .ins-sub,
+      .ins-vs {
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+      .ins-sub {
+        margin-top: 8px;
+      }
+      .ins-big {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--ink);
+        margin-top: 8px;
+      }
+      .ins-mid {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: var(--ink);
+      }
+
+      .ins-percent {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent-color);
+      }
+      .ins-hero-num {
+        font-size: 52px;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1;
+        color: var(--ink);
+        margin-top: 10px;
+      }
+
+      .ins-panel {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      .ins-compare {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .ins-trend {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--ink-2);
+      }
+      .ins-trend[data-trend="up"] {
+        color: var(--accent-color);
+        background: rgba(255, 255, 255, 0.06);
+        background: color-mix(in srgb, var(--accent-color) 16%, transparent);
+      }
+      .ins-trend[data-trend="up"]::before {
+        content: "↑ ";
+      }
+      .ins-trend[data-trend="down"]::before {
+        content: "↓ ";
+      }
+      .ins-chart {
+        position: relative;
+        height: 112px;
+        margin-top: 14px;
+      }
+      .ins-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 16px 0 14px;
+      }
+      .ins-panel .ins-mid {
+        margin-top: 6px;
+      }
+
+      .ins-rank {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .ins-bar {
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      .ins-bar > div {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--accent-color);
+        transition: width 0.5s ease;
+      }
+
+      .ins-hm {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .ins-hm-days {
+        display: grid;
+        grid-template-rows: repeat(7, 1fr);
+        gap: 3px;
+        padding-top: 18px;
+        font-size: 10px;
+        line-height: 1;
+        color: var(--ink-3);
+      }
+      .ins-hm-days span {
+        display: flex;
+        align-items: center;
+      }
+      .ins-hm-main {
+        flex: 1;
+        min-width: 0;
+      }
+      .ins-hm-months,
+      .ins-hm-grid {
+        display: grid;
+        grid-template-columns: repeat(26, minmax(0, 1fr));
+        gap: 3px;
+      }
+      .ins-hm-months {
+        height: 14px;
+        margin-bottom: 4px;
+        font-size: 10px;
+        line-height: 14px;
+        color: var(--ink-3);
+      }
+      .ins-hm-months span {
+        white-space: nowrap;
+      }
+      .ins-hm-grid {
+        grid-template-rows: repeat(7, auto);
+        grid-auto-flow: column;
+      }
+      .ins-hm-grid .hm-cell {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        border-radius: 3px;
+      }
+      .ins-stack .hm-level-0 {
+        background-color: rgba(255, 255, 255, 0.06);
+      }
+      .ins-stack .hm-level-1 {
+        background-color: #2e1f5e;
+        background-color: color-mix(
+          in srgb,
+          var(--accent-color) 24%,
+          transparent
+        );
+      }
+      .ins-stack .hm-level-2 {
+        background-color: #5b3fb0;
+        background-color: color-mix(
+          in srgb,
+          var(--accent-color) 48%,
+          transparent
+        );
+      }
+      .ins-stack .hm-level-3 {
+        background-color: #a78bfa;
+        background-color: color-mix(
+          in srgb,
+          var(--accent-color) 74%,
+          transparent
+        );
+      }
+      .ins-stack .hm-level-4 {
+        background-color: var(--accent-color);
+        box-shadow: none;
+      }
+      .ins-legend {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        margin-top: 12px;
+        font-size: 10px;
+        color: var(--ink-3);
+      }
+      .ins-legend i {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+      .ins-legend span:first-child {
+        margin-right: 2px;
+      }
+      .ins-legend span:last-child {
+        margin-left: 2px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ins-bar > div {
+          transition: none;
+        }
+      }
+
+      .ins-hero {
+        background: rgba(167, 139, 250, 0.14); /* fallback */
+        background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+        border: 1px solid
+          color-mix(in srgb, var(--accent-color) 30%, transparent);
+        border-radius: 24px;
+        padding: 20px;
+      }
+      .ins-track {
+        height: 10px;
+        margin-top: 18px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+      }
+      .ins-track > div {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--accent-color);
+        transition: width 0.5s ease;
+      }
+      .ins-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .ins-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        min-width: 0;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+      }
+      .ins-tile.wide {
+        grid-column: 1 / -1;
+        align-items: stretch;
+      }
+      .ins-tile .ins-compare {
+        flex-wrap: wrap;
+      }
+      .ins-tile .ins-big {
+        margin-top: 0;
+        font-size: 26px;
+      }
+      .ins-tile .ins-chart {
+        margin-top: 6px;
+      }
+      .ins-tile .ins-bar {
+        margin-top: 2px;
+      }
+      .ins-tile .ins-hm {
+        margin-top: 6px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ins-track > div {
+          transition: none;
+        }
       }
     </style>
   </head>
@@ -949,286 +1251,107 @@
       </div>
 
       <!-- ============ INSIGHTS VIEW ============ -->
-      <div id="view-insights" class="view hidden px-3.5 py-3 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-[15px] font-semibold text-slate-100">Insights</h2>
-          <span
-            id="insightDate"
-            class="text-[9px] text-slate-500 mb-0.5"
-          ></span>
-        </div>
+      <div id="view-insights" class="view hidden px-3.5 py-3">
+        <div class="ins-stack">
+          <header class="ins-head">
+            <h2 class="ins-title">Insights</h2>
+            <span id="insightDate" class="ins-date"></span>
+          </header>
 
-        <section class="bg-black/20 rounded-xl border border-white/[0.05] p-3">
-          <div class="flex items-end justify-between gap-3">
-            <!-- Left Column -->
-            <div>
-              <p class="text-[10px] font-medium text-slate-300">Today</p>
-              <p
-                id="insightTodayProgress"
-                class="text-[18px] tracking-tight font-semibold text-slate-100 mt-0.5 leading-none"
-              >
-                0
-              </p>
+          <section class="ins-hero">
+            <div class="ins-row">
+              <span class="ins-label">Today</span>
+              <span id="insightTodayPercent" class="ins-percent">0%</span>
             </div>
-
-            <!-- Right Column -->
-            <div class="text-right">
-              <p id="insightTodayRemaining" class="text-[10px] text-slate-500">
-                Goal: 1,000
-              </p>
-              <p
-                id="insightTodayPercent"
-                class="text-[18px] tracking-tight theme-accent-text font-semibold mt-0.5 leading-none"
-              >
-                0%
-              </p>
+            <div id="insightTodayProgress" class="ins-hero-num">0</div>
+            <p id="insightTodayRemaining" class="ins-sub">Goal: 1,000</p>
+            <div class="ins-track" aria-hidden="true">
+              <div id="insightTodayBar" style="width: 0%"></div>
             </div>
-          </div>
+          </section>
 
-          <div class="mt-3 h-1.5 bg-white/[0.07] rounded-full overflow-hidden">
-            <div
-              id="insightTodayBar"
-              class="theme-accent-bg h-full transition-all duration-500"
-              style="width: 0%"
-            ></div>
-          </div>
-        </section>
-
-        <section class="space-y-2">
-          <div class="flex justify-between items-center px-0.5">
-            <div>
-              <h3 class="text-[11px] font-semibold text-slate-200">
-                Progress at a glance
-              </h3>
-              <p class="text-[9px] text-slate-500 mt-0.5">
-                Compared with the previous period
-              </p>
-            </div>
-            <span
-              id="insightRhythmLabel"
-              class="text-[9px] text-slate-500"
-            ></span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-1.5">
-            <div class="insight-stat p-3 rounded-xl">
-              <div
-                class="text-[8px] text-slate-500 uppercase tracking-wide font-semibold"
-              >
-                This week
-              </div>
-              <div
-                id="insightWeekTotal"
-                class="text-[19px] font-bold text-slate-100 mt-1"
-              >
-                0
-              </div>
-              <div
-                id="insightWeekChange"
-                class="text-[9px] theme-accent-text mt-1"
-              >
-                Same as previous period
-              </div>
-            </div>
-            <div class="insight-stat p-3 rounded-xl">
-              <div
-                class="text-[8px] text-slate-500 uppercase tracking-wide font-semibold"
-              >
-                This month
-              </div>
-              <div
-                id="insightMonthTotal"
-                class="text-[19px] font-bold text-slate-100 mt-1"
-              >
-                0
-              </div>
-              <div
-                id="insightMonthChange"
-                class="text-[9px] theme-accent-text mt-1"
-              >
-                Same as last month
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-3 gap-1.5 text-center">
-            <div
-              class="insight-stat p-2.5 rounded-xl bg-black/20 border border-white/[0.05]"
-            >
-              <div
-                id="insightBestDay"
-                class="text-[14px] font-bold text-slate-100"
-              >
-                0
-              </div>
-              <div
-                class="text-[7px] text-slate-500 uppercase font-semibold mt-0.5"
-              >
-                Best day
-              </div>
-            </div>
-            <div
-              class="insight-stat p-2.5 rounded-xl bg-black/20 border border-white/[0.05]"
-            >
-              <div
-                id="insightAvgTaps"
-                class="text-[14px] font-bold text-slate-100"
-              >
-                0
-              </div>
-              <div
-                class="text-[7px] text-slate-500 uppercase font-semibold mt-0.5"
-              >
-                Avg / day
-              </div>
-            </div>
-            <div
-              class="insight-stat p-2.5 rounded-xl bg-black/20 border border-white/[0.05]"
-            >
-              <div id="statStreak" class="text-[14px] font-bold text-slate-100">
-                0
-              </div>
-              <div
-                class="text-[7px] text-slate-500 uppercase font-semibold mt-0.5"
-              >
-                Current streak
-              </div>
-            </div>
-          </div>
-
-          <!-- Lifetime Total Box -->
-          <div
-            class="bg-black/20 rounded-xl border border-white/[0.05] px-3 py-2.5 flex items-center justify-between gap-3"
-          >
-            <span
-              class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider"
-            >
-              Lifetime Total
-            </span>
-            <span
-              id="lifetimeTotalDisplay"
-              class="text-[13px] font-bold text-slate-100 whitespace-nowrap"
-            >
-              0 lifetime
-            </span>
-          </div>
-        </section>
-
-        <section
-          class="bg-black/20 p-3 rounded-xl border border-white/[0.05] space-y-2"
-        >
-          <div class="flex justify-between items-center text-[11px]">
-            <span class="font-semibold text-slate-100" id="modalLevelTitle"
-              >Rank 1 • Novice Seeker</span
-            >
-          </div>
-          <div
-            class="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden"
-          >
-            <div
-              id="xpProgressBar"
-              class="theme-accent-bg h-full transition-all duration-500"
-              style="width: 0%"
-            ></div>
-          </div>
-          <div class="flex justify-between items-center gap-2">
-            <p id="nextLevelLabel" class="text-[9px] text-slate-500">
-              500 XP until Rank 2
-            </p>
-          </div>
-        </section>
-
-        <!-- Weekly Bar Chart -->
-        <div class="space-y-1.5">
-          <div
-            class="text-[11px] font-semibold text-slate-300 flex justify-between items-center"
-          >
-            <span class="flex items-center gap-1.5">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-2.5 h-2.5 text-slate-500"
-                fill="currentColor"
-              >
-                <rect x="4" y="12" width="4" height="8" rx="1" />
-                <rect x="10" y="4" width="4" height="16" rx="1" />
-                <rect x="16" y="9" width="4" height="11" rx="1" />
-              </svg>
-              Recent activity
-            </span>
-            <span id="chartTotalLabel" class="text-[10px] theme-accent-text"
-              >0 total</span
-            >
-          </div>
-          <div
-            class="bg-black/30 p-3 rounded-xl border border-white/[0.05] h-32 flex flex-col justify-end"
-          >
-            <div class="h-full w-full relative">
-              <canvas id="weeklyChartCanvas"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <!-- GitHub-Style Heatmap Grid -->
-        <div class="space-y-1.5">
-          <div
-            class="text-[11px] font-semibold text-slate-300 flex justify-between items-center"
-          >
-            <span class="flex items-center gap-1.5">
-              <svg
-                viewBox="0 0 24 24"
-                class="w-2.5 h-2.5 text-slate-500"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <path d="M16 2v4M8 2v4M3 10h18" />
-              </svg>
-              Activity history
-            </span>
-            <div class="flex items-center gap-1 text-[8px] text-slate-500">
-              <span>Less</span>
-              <span
-                class="w-2 h-2 rounded-[1px] hm-level-0 inline-block"
-              ></span>
-              <span
-                class="w-2 h-2 rounded-[1px] hm-level-1 inline-block"
-              ></span>
-              <span
-                class="w-2 h-2 rounded-[1px] hm-level-2 inline-block"
-              ></span>
-              <span
-                class="w-2 h-2 rounded-[1px] hm-level-3 inline-block"
-              ></span>
-              <span
-                class="w-2 h-2 rounded-[1px] hm-level-4 inline-block"
-              ></span>
-              <span>More</span>
-            </div>
-          </div>
-
-          <div
-            class="bg-black/30 p-3 rounded-xl border border-white/[0.05] overflow-x-auto"
-          >
-            <div class="flex flex-col gap-1 w-max">
-              <div
-                id="heatmapMonths"
-                class="grid grid-flow-col auto-cols-[10px] gap-1 text-[8px] text-slate-500 font-mono pl-4"
-              ></div>
-              <div class="flex gap-1.5">
-                <div
-                  class="grid grid-rows-7 gap-1 text-[7px] text-slate-500 font-mono leading-[10px] select-none"
+          <div class="ins-grid">
+            <section class="ins-tile">
+              <span class="ins-label">Last 7 days</span>
+              <div id="insightWeekTotal" class="ins-big">0</div>
+              <span class="ins-compare">
+                <span id="insightWeekChange" class="ins-trend" data-trend="flat"
+                  >No change</span
                 >
-                  <span>Sun</span><span>Mon</span><span>Tue</span
-                  ><span>Wed</span><span>Thu</span><span>Fri</span
-                  ><span>Sat</span>
-                </div>
-                <div
-                  id="heatmapGrid"
-                  class="grid grid-rows-7 grid-flow-col gap-1"
-                ></div>
+                <span class="ins-vs">vs previous</span>
+              </span>
+            </section>
+            <section class="ins-tile">
+              <span class="ins-label">This month</span>
+              <div id="insightMonthTotal" class="ins-big">0</div>
+              <span class="ins-compare">
+                <span
+                  id="insightMonthChange"
+                  class="ins-trend"
+                  data-trend="flat"
+                  >No change</span
+                >
+                <span class="ins-vs">vs last month</span>
+              </span>
+            </section>
+
+            <section class="ins-tile wide">
+              <span class="ins-label">Daily activity</span>
+              <div class="ins-chart">
+                <canvas id="weeklyChartCanvas"></canvas>
               </div>
-            </div>
+            </section>
+
+            <section class="ins-tile">
+              <span class="ins-label">Best day</span>
+              <span id="insightBestDay" class="ins-mid">0</span>
+            </section>
+            <section class="ins-tile">
+              <span class="ins-label">Average per day</span>
+              <span id="insightAvgTaps" class="ins-mid">0</span>
+            </section>
+            <section class="ins-tile">
+              <span class="ins-label">Day streak</span>
+              <span id="statStreak" class="ins-mid">0</span>
+            </section>
+            <section class="ins-tile">
+              <span class="ins-label">Lifetime total</span>
+              <span id="lifetimeTotalDisplay" class="ins-mid">0</span>
+            </section>
+
+            <section class="ins-tile wide">
+              <div id="modalLevelTitle" class="ins-rank">
+                Rank 1 • Novice Seeker
+              </div>
+              <div class="ins-bar">
+                <div id="xpProgressBar" style="width: 0%"></div>
+              </div>
+              <p id="nextLevelLabel" class="ins-vs">500 XP until Rank 2</p>
+            </section>
+
+            <section class="ins-tile wide">
+              <div class="ins-row">
+                <span class="ins-label">Activity history</span>
+                <span id="insightRhythmLabel" class="ins-vs"></span>
+              </div>
+              <div class="ins-hm">
+                <div class="ins-hm-days">
+                  <span></span><span>Mon</span><span></span><span>Wed</span
+                  ><span></span><span>Fri</span><span></span>
+                </div>
+                <div class="ins-hm-main">
+                  <div id="heatmapMonths" class="ins-hm-months"></div>
+                  <div id="heatmapGrid" class="ins-hm-grid"></div>
+                </div>
+              </div>
+              <div class="ins-legend">
+                <span>Less</span>
+                <i class="hm-level-0"></i><i class="hm-level-1"></i
+                ><i class="hm-level-2"></i><i class="hm-level-3"></i
+                ><i class="hm-level-4"></i>
+                <span>More</span>
+              </div>
+            </section>
           </div>
         </div>
       </div>
