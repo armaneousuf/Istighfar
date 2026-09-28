@@ -506,12 +506,6 @@
       }
 
       /* Today: the one raised, accented surface */
-      .ins-hero {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
-        padding: 18px 18px 20px;
-      }
       .ins-percent {
         font-size: 13px;
         font-weight: 600;
@@ -698,36 +692,31 @@
 
       /* ---- Bento: one solid accent tile, quiet tiles around it ---- */
       .ins-hero {
-        background: var(--accent-color);
-        border: 0;
+        background: rgba(167, 139, 250, 0.14);
+        background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+        border: 1px solid
+          color-mix(in srgb, var(--accent-color) 30%, transparent);
         border-radius: 24px;
         padding: 20px;
       }
       .ins-hero .ins-label,
       .ins-hero .ins-sub {
-        color: rgba(11, 10, 16, 0.72);
+        color: var(--ink-2);
       }
       .ins-hero .ins-percent {
-        color: #0b0a10;
+        color: var(--accent-color);
         font-size: 15px;
         font-weight: 700;
       }
       .ins-hero .ins-hero-num {
-        color: #0b0a10;
+        color: var(--ink);
         font-size: 52px;
       }
       .ins-track {
-        height: 10px;
-        margin-top: 18px;
-        border-radius: 999px;
-        background: rgba(11, 10, 16, 0.2);
-        overflow: hidden;
+        background: rgba(255, 255, 255, 0.1);
       }
       .ins-track > div {
-        height: 100%;
-        border-radius: 999px;
-        background: #0b0a10;
-        transition: width 0.5s ease;
+        background: var(--accent-color);
       }
       .ins-grid {
         display: grid;
@@ -741,7 +730,7 @@
         gap: 8px;
         min-width: 0;
         padding: 14px 16px;
-        background: rgba(255, 255, 255, 0.04);
+        background: var(--card-bg);
         border: 1px solid var(--line);
         border-radius: 20px;
       }
@@ -905,7 +894,7 @@
         justify-content: center;
         cursor: pointer;
         outline: none;
-        background: var(--card-bg);
+        background: var(--app-bg);
         border: 1px solid var(--line);
       }
       .hp-tap:focus-visible {
