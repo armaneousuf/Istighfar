@@ -1,4 +1,4 @@
-const CACHE_NAME = 'istighfar-cache-v4.1.2.46';
+const CACHE_NAME = 'istighfar-cache-v4.1.3.47';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,6 +8,21 @@ const ASSETS_TO_CACHE = [
   './script.js',
   './js/constants.js',
   './js/storage.js',
+  './js/data/milestones.js',
+  './js/core/app-state.js',
+  './js/core/persist.js',
+  './js/core/dom.js',
+  './js/core/dates.js',
+  './js/core/audio.js',
+  './js/core/guarded-tap.js',
+  './js/core/counter.js',
+  './js/ui/modals.js',
+  './js/ui/focus-nav.js',
+  './js/ui/settings.js',
+  './js/features/badges.js',
+  './js/features/analytics.js',
+  './js/features/prayer-view.js',
+  './js/features/data-management.js',
   './js/services/haptics.js',
   './js/services/prayer.js',
   './vendor/adhan/Adhan.js',

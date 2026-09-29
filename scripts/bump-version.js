@@ -16,7 +16,7 @@
  *   android/app/build.gradle  versionName "x" + versionCode N
  *   www/index.html            Settings label "App version"
  *   package.json              "version" (bare version, derived if you pass 4 parts)
- *   www/script.js             APP_LAST_UPDATED
+ *   www/js/ui/settings.js     APP_LAST_UPDATED
  *   www/sw.js                 CACHE_NAME (optional, keeps the PWA from serving stale files)
  */
 
@@ -30,11 +30,10 @@ const FILES = {
   gradle: path.join(ROOT, "android/app/build.gradle"),
   indexHtml: path.join(ROOT, "www/index.html"),
   packageJson: path.join(ROOT, "package.json"),
-  scriptJs: path.join(ROOT, "www/script.js"),
+  // APP_LAST_UPDATED lives in the settings UI module.
+  scriptJs: path.join(ROOT, "www/js/ui/settings.js"),
   swJs: path.join(ROOT, "www/sw.js"),
 };
-
-// ---------------------------------------------------------------- utilities
 
 const c = {
   bold: (s) => `\x1b[1m${s}\x1b[0m`,
@@ -56,7 +55,6 @@ function readText(file) {
   return fs.readFileSync(file, "utf8");
 }
 
-/** today in the machine's local time, as YYYY-MM-DD */
 function todayISO() {
   const d = new Date();
   const p = (n) => String(n).padStart(2, "0");
@@ -67,14 +65,12 @@ function isVersion(v) {
   return /^\d+(\.\d+)*$/.test(v);
 }
 
-/** keep only the first 3 parts, for package.json's strict semver field */
 function toSemver(v) {
   const parts = v.split(".");
   while (parts.length < 3) parts.push("0");
   return parts.slice(0, 3).join(".");
 }
 
-/** replace exactly one match of `re` in `text`; throws if the shape changed */
 function replaceOnce(text, re, build, label) {
   const matches = text.match(
     new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g"),
@@ -89,8 +85,6 @@ function replaceOnce(text, re, build, label) {
   }
   return text.replace(re, build);
 }
-
-// ---------------------------------------------------------------- reading current state
 
 function readCurrent() {
   const gradle = readText(FILES.gradle);
@@ -115,7 +109,8 @@ function readCurrent() {
   if (!htmlVersion)
     fail("could not find the 'App version' span in www/index.html");
   if (!pkgVersion) fail('could not find "version" in package.json');
-  if (!lastUpdated) fail("could not find APP_LAST_UPDATED in www/script.js");
+  if (!lastUpdated)
+    fail("could not find APP_LAST_UPDATED in www/js/ui/settings.js");
   if (!cacheName) fail("could not find CACHE_NAME in www/sw.js");
 
   return {
@@ -129,15 +124,11 @@ function readCurrent() {
   };
 }
 
-// ---------------------------------------------------------------- prompts
-
 function ask(rl, question, fallback) {
   return new Promise((resolve) => {
     rl.question(question, (answer) => resolve(answer.trim() || fallback));
   });
 }
-
-// ---------------------------------------------------------------- main
 
 async function main() {
   const argv = process.argv.slice(2);
@@ -146,7 +137,6 @@ async function main() {
   const jsonUpdate = argv.includes("--update-json");
   const positional = argv.filter((a) => !a.startsWith("-"));
 
-  // --code can be "+1", "+2", a number, or "auto" (default: +1)
   let codeArg = null;
   const codeFlag = argv.findIndex((a) => a === "--code" || a === "-c");
   if (codeFlag !== -1) codeArg = argv[codeFlag + 1] || "auto";
@@ -196,7 +186,6 @@ async function main() {
       `"${date}" is not a date in YYYY-MM-DD form (used by APP_LAST_UPDATED).`,
     );
 
-  // ---- versionCode
   let nextCode;
   if (code === undefined || code === null || code === "" || code === "auto") {
     nextCode = cur.versionCode + 1;
@@ -226,7 +215,6 @@ async function main() {
     );
   }
 
-  // ---- build the new file contents
   const newGradle = replaceOnce(
     replaceOnce(
       cur.raw.gradle,
@@ -264,7 +252,7 @@ async function main() {
     if (!withVersion) {
       console.log(
         c.yellow(
-          "note: --update-json was passed but www/script.js has no APP_VERSION constant; skipping.",
+          "note: --update-json was passed but www/js/ui/settings.js has no APP_VERSION constant; skipping.",
         ),
       );
     } else {
@@ -277,8 +265,6 @@ async function main() {
     }
   }
 
-  // Cache name always changes so installed PWAs fetch the new files instead of
-  // serving the previous release from cache. --no-cache opts out.
   const cachePrefix = cur.cacheName.replace(/-v[\d.]+$/, "");
   const nextCacheName = `${cachePrefix}-v${version}`;
   const newSw = noCache
@@ -290,7 +276,6 @@ async function main() {
         "CACHE_NAME",
       );
 
-  // ---- report
   const rows = [
     ["android/app/build.gradle  versionName", cur.versionName, version],
     [
@@ -300,7 +285,7 @@ async function main() {
     ],
     ["www/index.html             App version", cur.htmlVersion, version],
     ["package.json               version", cur.pkgVersion, pkgVersion],
-    ["www/script.js              APP_LAST_UPDATED", cur.lastUpdated, date],
+    ["www/js/ui/settings.js     APP_LAST_UPDATED", cur.lastUpdated, date],
   ];
   if (!noCache)
     rows.push([

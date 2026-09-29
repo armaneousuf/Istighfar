@@ -41,12 +41,6 @@ The app combines an elegant, dark-themed interface with features to make daily I
 - **Countdown to next prayer** with live updates every second
 - **Location tracking** — save your location for fast, repeated access
 
-### Playground (Free Practice)
-
-- **Round-based counter** independent of your main Istighfar practice
-- **Preset targets** (33, 99, 100) or custom amounts for flexible practice sessions
-- **Daily round tracking** — track how many complete rounds you finish
-
 ### Customization
 
 - **6 Islamic duas** to choose from, including Istighfar, Subhanallah, and more

@@ -2,10 +2,6 @@ function plugin() {
   return window.Capacitor?.Plugins?.Haptics;
 }
 
-// Feedback "flavours". Each call site can request a light, intentional tick
-// (every tap) or a richer pattern for meaningful moments (round complete,
-// milestone). Keeping them distinct makes the app feel responsive rather than
-// monotonous, and avoids a harsh buzz on every single tap.
 const PATTERNS = {
   light: { style: 'LIGHT', webMs: 10 },
   medium: { style: 'MEDIUM', webMs: [0, 18] },
@@ -29,15 +25,12 @@ export async function hapticTap(enabled, flavour = 'light') {
         return;
       }
     } catch (e) {
-      // fall through to web vibrate
     }
   }
 
   if (navigator.vibrate) {
     try {
       navigator.vibrate(pattern.webMs);
-    } catch (e) {
-      // vibration unsupported / blocked — silently ignore
-    }
+    } catch (e) {}
   }
 }

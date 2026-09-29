@@ -784,11 +784,6 @@ body.anonymous-mode .nav-btn:not([data-view="home"]) {
   gap: 8px;
   min-width: 0;
   padding: 14px 16px;
-  /* background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.045),
-    rgba(255, 255, 255, 0.015)
-  ); */
   background-color: var(--app-bg);
   border: 1px solid rgba(167, 139, 250, 0.08);
   border-radius: 20px;
@@ -838,7 +833,6 @@ body.anonymous-mode .nav-btn:not([data-view="home"]) {
   border-left: 1px solid var(--line);
 }
 .ins-stat:nth-child(n + 3) {
-  /* border-top: 1px solid var(--line); */
   padding-top: 16px;
 }
 .ins-stats .ins-stat:first-child,
