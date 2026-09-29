@@ -1,9 +1,10 @@
-const CACHE_NAME = 'istighfar-cache-v4.1.0.43';
+const CACHE_NAME = 'istighfar-cache-v4.1.2.46';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './tailwind.css',
+  './styles.css',
   './script.js',
   './js/constants.js',
   './js/storage.js',

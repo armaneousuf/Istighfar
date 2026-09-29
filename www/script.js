@@ -1,4 +1,4 @@
-import { defaultState, duaPhrases, getFormattedDate } from "./js/constants.js";
+import { defaultState, getFormattedDate } from "./js/constants.js";
 import {
   clearState,
   loadState,
@@ -166,8 +166,14 @@ const counterDisplay = document.getElementById("counterDisplay");
 const targetLabel = document.getElementById("targetLabel");
 const progressRing = document.getElementById("progressRing");
 const tapBtn = document.getElementById("tapBtn");
+// The dua picker lives on the Home screen; the meanings are listed in
+// Settings → About → Duas. Selecting an option only sets which dua is being
+// counted, so nothing else needs to update.
 const duaSelect = document.getElementById("duaSelect");
-const transliterationText = document.getElementById("transliterationText");
+
+function applySelectedDua() {
+  if (duaSelect) duaSelect.value = state.selectedDua;
+}
 const todayTotalDisplay = document.getElementById("todayTotalDisplay");
 const lifetimeTotalDisplay = document.getElementById("lifetimeTotalDisplay");
 const floatContainer = document.getElementById("floatContainer");
@@ -1215,19 +1221,11 @@ function toggleAnonymousMode(forceState = null) {
   if (isAnonymous) {
     anonymousCount = 0;
     document.body.classList.add("anonymous-mode");
-    anonymousBtn.classList.add(
-      "bg-amber-500/20",
-      "text-amber-400",
-      "border-amber-500/40",
-    );
+    anonymousBtn.classList.add("active");
     anonymousBanner.classList.remove("hidden");
   } else {
     document.body.classList.remove("anonymous-mode");
-    anonymousBtn.classList.remove(
-      "bg-amber-500/20",
-      "text-amber-400",
-      "border-amber-500/40",
-    );
+    anonymousBtn.classList.remove("active");
     anonymousBanner.classList.add("hidden");
   }
 
@@ -1411,9 +1409,9 @@ function renderPrayerTimes(latitude, longitude) {
       const isNext = name === next[0] && time.getTime() === next[1].getTime();
       return `<div class="pr-row${isMarker ? " marker" : ""}${
         isNext ? " next" : ""
-      }"><span class="pr-name">${name}${
-        isNext ? '<em class="pr-tag">Next</em>' : ""
-      }</span><span class="pr-time">${formatPrayerTime(time)}</span></div>`;
+      }"><span class="pr-name">${name}</span><span class="pr-time">${formatPrayerTime(
+        time,
+      )}</span></div>`;
     })
     .join("");
   prayerStatus.textContent =
@@ -1603,10 +1601,7 @@ applyTargetBtn.addEventListener("click", () => {
 duaSelect.addEventListener("change", (e) => {
   const val = e.target.value;
   state.selectedDua = val;
-  const selected = duaPhrases[val];
-  if (selected) {
-    transliterationText.textContent = selected.trans;
-  }
+  applySelectedDua();
   saveState();
 });
 
@@ -1687,6 +1682,20 @@ if (openAboutModalBtn && closeAboutModalBtn && aboutModal) {
   });
   closeAboutModalBtn.addEventListener("click", () => {
     aboutModal.classList.add("hidden");
+  });
+}
+
+// Duas Modal
+const duasModal = document.getElementById("duasModal");
+const openDuasModalBtn = document.getElementById("openDuasModalBtn");
+const closeDuasModalBtn = document.getElementById("closeDuasModalBtn");
+
+if (openDuasModalBtn && closeDuasModalBtn && duasModal) {
+  openDuasModalBtn.addEventListener("click", () => {
+    duasModal.classList.remove("hidden");
+  });
+  closeDuasModalBtn.addEventListener("click", () => {
+    duasModal.classList.add("hidden");
   });
 }
 
@@ -1779,10 +1788,7 @@ importFileInput.addEventListener("change", (e) => {
         );
         saveState();
 
-        if (state.selectedDua && duaPhrases[state.selectedDua]) {
-          duaSelect.value = state.selectedDua;
-          transliterationText.textContent = duaPhrases[state.selectedDua].trans;
-        }
+        applySelectedDua();
 
         updateProgress();
         renderBadgesList();
@@ -1808,7 +1814,7 @@ importFileInput.addEventListener("change", (e) => {
 
 // Bump this to the date of each release; the settings label derives
 // its "X days ago" text from this automatically.
-const APP_LAST_UPDATED = "2026-09-28";
+const APP_LAST_UPDATED = "2026-09-29";
 
 function updateLastUpdatedLabel() {
   if (!lastUpdateLabel) return;
@@ -1844,10 +1850,7 @@ async function initApp() {
 
     checkDailyReset();
 
-    if (state.selectedDua && duaPhrases[state.selectedDua]) {
-      duaSelect.value = state.selectedDua;
-      transliterationText.textContent = duaPhrases[state.selectedDua].trans;
-    }
+    applySelectedDua();
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("action") === "quick-tap") {
@@ -1864,7 +1867,7 @@ async function initApp() {
 
     if (loadingState) {
       const elapsed = Date.now() - startTime;
-      const minDisplay = 400; 
+      const minDisplay = 400;
       const delay = Math.max(0, minDisplay - elapsed);
 
       setTimeout(() => {
