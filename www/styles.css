@@ -280,10 +280,6 @@ body.focus-mode .hide-in-focus {
 body.anonymous-mode .hide-in-anonymous {
   display: none !important;
 }
-body.anonymous-mode .nav-btn:not([data-view="home"]) {
-  opacity: 0.35;
-  pointer-events: none;
-}
 
 .hide-nav-buttons #anonymousBtn,
 .hide-nav-buttons #focusBtn {

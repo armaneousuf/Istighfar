@@ -65,7 +65,6 @@ function wireEventListeners() {
   setupSettings();
 
   setupBottomNavbar({
-    onLeaveAnonymous: () => toggleAnonymousMode(false),
     onCloseFocus: disableFocusMode,
   });
 

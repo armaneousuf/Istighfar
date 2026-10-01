@@ -13,7 +13,7 @@ import {
 import { setTarget, applySelectedDua } from "../core/counter.js";
 import { hapticTap } from "../services/haptics.js";
 
-export const APP_LAST_UPDATED = "2026-09-29";
+export const APP_LAST_UPDATED = "2026-10-01";
 
 export function updateLastUpdatedLabel() {
   if (!lastUpdateLabel) return;

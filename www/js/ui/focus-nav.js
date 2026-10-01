@@ -26,15 +26,13 @@ export function disableFocusMode() {
   focusOverlay.classList.add("hidden");
 }
 
-export function setupBottomNavbar({ onLeaveAnonymous, onCloseFocus }) {
+export function setupBottomNavbar({ onCloseFocus }) {
   const navButtons = document.querySelectorAll("#bottomNav .nav-btn");
   const views = document.querySelectorAll("#viewContainer .view");
   const header = getEl("appHeader");
 
   navButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      if (getIsAnonymous() && btn.getAttribute("data-view") !== "home") return;
-
       const targetViewId = `view-${btn.getAttribute("data-view")}`;
 
       navButtons.forEach((b) => b.classList.remove("active"));
@@ -55,9 +53,6 @@ export function setupBottomNavbar({ onLeaveAnonymous, onCloseFocus }) {
       }
 
       if (targetViewId !== "view-home") {
-        if (getIsAnonymous()) {
-          onLeaveAnonymous();
-        }
         if (!focusOverlay.classList.contains("hidden")) {
           onCloseFocus();
         }
