@@ -31,6 +31,10 @@ import {
 } from "./js/core/counter.js";
 import { renderBadgesList } from "./js/features/badges.js";
 import { setupPrayerLocationButton } from "./js/features/prayer-view.js";
+import {
+  renderNameOfTheDay,
+  setupNameOfDay,
+} from "./js/features/name-of-day.js";
 import { setupDataManagement } from "./js/features/data-management.js";
 import { setupModals } from "./js/ui/modals.js";
 import {
@@ -61,6 +65,7 @@ function wireEventListeners() {
   });
 
   setupPrayerLocationButton();
+  setupNameOfDay();
   setupModals();
   setupSettings();
 
@@ -100,6 +105,7 @@ async function initApp() {
     hapticsToggle.classList.toggle("on", getState().hapticsEnabled);
     wireEventListeners();
     renderBadgesList();
+    renderNameOfTheDay();
     updateProgress();
     updateLastUpdatedLabel();
 

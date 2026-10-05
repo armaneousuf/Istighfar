@@ -99,8 +99,37 @@
         </div>
       </div>
 
-      <!-- Action buttons: focus + anonymous -->
+      <!-- Action buttons: name of the day + anonymous + focus -->
       <div class="hd-actions shrink-0">
+        <button
+          id="nameOfDayBtn"
+          class="hd-icon-btn tap-btn"
+          title="Name of the day"
+          aria-label="Name of the day"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+          >
+            <title>badge-info</title>
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            >
+              <path
+                d="m14.394 3l-.246-.209a3.31 3.31 0 0 0-4.296 0l-.246.21a4 4 0 0 1-2.276.943l-.323.025A3.31 3.31 0 0 0 3.97 7.007l-.025.323A4 4 0 0 1 3 9.606l-.21.246a3.31 3.31 0 0 0 0 4.296l.21.246a4 4 0 0 1 .943 2.276l.025.323a3.31 3.31 0 0 0 3.038 3.038l.323.025A4 4 0 0 1 9.606 21l.246.21a3.31 3.31 0 0 0 4.296 0l.246-.21a4 4 0 0 1 2.276-.943l.323-.025a3.31 3.31 0 0 0 3.038-3.038l.025-.323A4 4 0 0 1 21 14.394l.21-.246a3.31 3.31 0 0 0 0-4.296L21 9.606a4 4 0 0 1-.943-2.276l-.025-.323a3.31 3.31 0 0 0-3.038-3.038l-.323-.025A4 4 0 0 1 14.394 3M12 16v-4"
+              />
+              <path
+                d="M12.125 8.25H12m.25 0a.25.25 0 1 0-.5 0a.25.25 0 0 0 .5 0"
+              />
+            </g>
+          </svg>
+        </button>
         <button
           id="anonymousBtn"
           class="hd-icon-btn tap-btn"
@@ -788,7 +817,9 @@
 
     <!-- Virtues Modal -->
     <div id="infoModal" class="modal-overlay hidden">
-      <div class="modal-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3">
+      <div
+        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
+      >
         <div
           class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"
         >
@@ -857,7 +888,9 @@
 
     <!-- Duas Modal -->
     <div id="duasModal" class="modal-overlay hidden" style="z-index: 60">
-      <div class="modal-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3">
+      <div
+        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
+      >
         <div
           class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"
         >
@@ -930,6 +963,63 @@
             The dua chosen on the Home screen is the one counted in your current
             session.
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Name of the Day Modal -->
+    <div id="nameOfDayModal" class="modal-overlay hidden" style="z-index: 60">
+      <div class="modal-panel accent-panel max-w-md space-y-4 text-center">
+        <div class="flex justify-between items-center pb-2.5">
+          <h3
+            class="font-semibold text-[13px] text-slate-100 flex items-center gap-1.5"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="w-3 h-3 theme-accent-text"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg>
+            Name of the day
+          </h3>
+          <button
+            id="closeNameOfDayModal"
+            class="text-slate-500 hover:text-slate-100 p-1"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="nd-card">
+          <div class="nd-top">
+            <div id="nameOfDayTranslit" class="nd-translit">Ar-Rahman</div>
+            <div id="nameOfDayArabic" class="nd-arabic font-arabic" dir="rtl">
+              الرَّحْمَٰن
+            </div>
+          </div>
+          <p id="nameOfDayMeaning" class="nd-meaning">
+            The Most Compassionate
+          </p>
+          <div class="nd-track" aria-hidden="true">
+            <div id="nameOfDayTrack" style="width: 1%"></div>
+          </div>
+          <p id="nameOfDayRemaining" class="nd-meta">99 remaining of 99</p>
         </div>
       </div>
     </div>
@@ -1369,7 +1459,9 @@
 
     <!-- About Modal -->
     <div id="aboutModal" class="modal-overlay hidden" style="z-index: 60">
-      <div class="modal-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3">
+      <div
+        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
+      >
         <div
           class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"
         >

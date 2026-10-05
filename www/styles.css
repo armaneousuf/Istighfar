@@ -281,6 +281,7 @@ body.anonymous-mode .hide-in-anonymous {
   display: none !important;
 }
 
+.hide-nav-buttons #nameOfDayBtn,
 .hide-nav-buttons #anonymousBtn,
 .hide-nav-buttons #focusBtn {
   display: none;
@@ -354,6 +355,12 @@ body.anonymous-mode .hide-in-anonymous {
 .hd-icon-btn svg {
   width: 15px;
   height: 15px;
+}
+/* The Name of the day badge fills its whole viewBox, so it needs a larger box
+   inside the same 34px button than the flatter line icons beside it. */
+#nameOfDayBtn svg {
+  width: 20px;
+  height: 20px;
 }
 .hd-icon-btn:hover,
 .hd-icon-btn:active {
@@ -487,6 +494,79 @@ body.anonymous-mode .hide-in-anonymous {
   padding: 1rem;
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.45),
     0 2px 8px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Shared raised, accent-tinted modal surface, matching the Insights "Today" hero. */
+.accent-panel {
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+  background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+}
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .accent-panel {
+    border-color: rgba(167, 139, 250, 0.3);
+    background: rgba(167, 139, 250, 0.14);
+  }
+}
+/* The Name of the day card sits directly on that surface, so it adds no second
+   box of its own. */
+.accent-panel .nd-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.nd-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+/* Arabic reads right-to-left, so the name sits on the right and the
+   pronunciation balances it on the left. */
+.nd-arabic {
+  font-size: 26px;
+  line-height: 1.7;
+  font-weight: 700;
+  color: #f1f5f9;
+  text-align: right;
+}
+.nd-translit {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  text-align: left;
+}
+.nd-meaning {
+  margin-top: 12px;
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f1f5f9;
+  text-align: center;
+}
+.nd-track {
+  margin-top: 18px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.nd-track > div {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent-color);
+  transition: width 0.5s ease;
+}
+.nd-meta {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #7f8797;
+  text-align: center;
 }
 
 /* Prayers placeholder rows */

@@ -21,6 +21,10 @@ export const defaultState = {
   selectedDua: "1",
   unlockedBadges: [],
   dailyHistory: {},
+  // Position in the 99-name cycle and the date it was assigned. Stored with the
+  // rest of the app state so the sequence survives updates and reinstalls.
+  nameOfDayIndex: 0,
+  nameOfDayDate: getFormattedDate(),
 };
 
 export const duaPhrases = {

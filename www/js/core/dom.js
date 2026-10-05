@@ -88,5 +88,14 @@ export const nextPrayerName = getEl("nextPrayerName");
 export const nextPrayerTime = getEl("nextPrayerTime");
 export const nextPrayerCountdown = getEl("nextPrayerCountdown");
 
+export const nameOfDayBtn = getEl("nameOfDayBtn");
+export const nameOfDayModal = getEl("nameOfDayModal");
+export const closeNameOfDayModal = getEl("closeNameOfDayModal");
+export const nameOfDayArabic = getEl("nameOfDayArabic");
+export const nameOfDayTranslit = getEl("nameOfDayTranslit");
+export const nameOfDayMeaning = getEl("nameOfDayMeaning");
+export const nameOfDayTrack = getEl("nameOfDayTrack");
+export const nameOfDayRemaining = getEl("nameOfDayRemaining");
+
 export const ringRadius = 124;
 export const ringCircumference = 2 * Math.PI * ringRadius;
