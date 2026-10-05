@@ -1,3 +1,23 @@
+/* Lifetime ranks, ascending. `at` is the lifetime total needed to enter the
+   rank; the next rank's `at` is the ceiling for the XP bar. */
+export const RANKS = [
+  { name: "Novice Seeker", at: 0 },
+  { name: "Awakened Seeker", at: 500 },
+  { name: "Devoted Pilgrim", at: 1000 },
+  { name: "Golden Adept", at: 2500 },
+  { name: "Champion Seeker", at: 5000 },
+  { name: "Radiant Heart", at: 10000 },
+  { name: "Celestial Pilgrim", at: 25000 },
+  { name: "Ocean of Mercy", at: 50000 },
+  { name: "Light Bearer", at: 100000 },
+  { name: "Cosmic Master", at: 250000 },
+  { name: "Pillar of Repentance", at: 500000 },
+  { name: "Master of Istighfar", at: 1000000 },
+  { name: "Beacon of Devotion", at: 2500000 },
+  { name: "Eternal Remembrance", at: 5000000 },
+  { name: "Al-Musaafir", at: 10000000 },
+];
+
 export const MILESTONES = [
   {
     count: 33,

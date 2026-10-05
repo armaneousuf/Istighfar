@@ -66,15 +66,19 @@ export const insightAvgTaps = getEl("insightAvgTaps");
 export const insightRhythmLabel = getEl("insightRhythmLabel");
 
 export const modalLevelTitle = getEl("modalLevelTitle");
+export const modalRankNumber = getEl("modalRankNumber");
+export const modalRankOf = getEl("modalRankOf");
 export const modalXpText = getEl("modalXpText");
 export const xpProgressBar = getEl("xpProgressBar");
 export const nextLevelLabel = getEl("nextLevelLabel");
+export const rankPips = getEl("rankPips");
 
 export const statTotalIstighfar = getEl("lifetimeTotalDisplay");
 export const statStreak = getEl("statStreak");
 export const statBestStreak = getEl("statBestStreak");
 export const stat1kCount = getEl("stat1kCount");
 export const statBadgesEarned = getEl("statBadgesEarned");
+export const badgesHint = getEl("badgesHint");
 
 export const streakBigNumber = getEl("streakBigNumber");
 export const streakBestDisplay = getEl("streakBestDisplay");

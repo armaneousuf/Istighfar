@@ -23,5 +23,4 @@ export function setupModals() {
   wirePair("openProgressModalBtn", "closeProgressModalBtn", "progressModal");
   wirePair("openTipsModalBtn", "closeTipsModalBtn", "tipsModal");
   wirePair("openAboutModalBtn", "closeAboutModalBtn", "aboutModal");
-  wirePair("openDuasModalBtn", "closeDuasModalBtn", "duasModal");
 }

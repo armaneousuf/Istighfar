@@ -221,25 +221,16 @@
       </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Milestone Toast Notification -->
     <div
       id="toastNotification"
-      class="absolute top-1.5 z-30 inset-x-3 max-w-md mx-auto bg-slate-900/95 border theme-accent-border text-slate-100 p-2.5 rounded-xl soft-shadow flex items-center space-x-2.5 hidden transition-all duration-300 backdrop-blur-md"
+      class="absolute top-3 z-30 inset-x-3 max-w-md mx-auto hidden"
     >
-      <div
-        id="toastIcon"
-        class="w-9 h-9 rounded-lg theme-accent-bg text-slate-950 flex items-center justify-center flex-shrink-0"
-      ></div>
-      <div class="flex-1 min-w-0">
-        <div
-          id="toastTitle"
-          class="text-[10px] font-bold uppercase tracking-wide theme-accent-text"
-        >
-          Milestone Unlocked!
-        </div>
-        <div id="toastDesc" class="text-[11px] text-slate-300 truncate">
-          Reached 1,000 Istighfar
-        </div>
+      <div class="toast-card">
+        <div id="toastIcon" class="toast-icon"></div>
+        <div id="toastTitle" class="toast-title">Devoted Pilgrim</div>
+        <div id="toastDesc" class="toast-desc">Achieved 1,000 Istighfar</div>
+        <div class="toast-bar" aria-hidden="true"><div></div></div>
       </div>
     </div>
 
@@ -518,13 +509,31 @@
             </section>
 
             <section class="ins-tile wide">
-              <div id="modalLevelTitle" class="ins-rank">
-                Rank 1 • Novice Seeker
+              <div class="ins-row">
+                <span class="ins-label">Rank</span>
+                <span id="modalXpText" class="ins-vs">0 XP</span>
               </div>
+
+              <div class="rk-head">
+                <div class="rk-badge"><span id="modalRankNumber">1</span></div>
+                <div class="rk-head-text">
+                  <div id="modalLevelTitle" class="ins-rank">
+                    Novice Seeker
+                  </div>
+                  <div class="rk-sub">
+                    <span id="modalRankOf">of 15</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="ins-bar">
                 <div id="xpProgressBar" style="width: 0%"></div>
               </div>
-              <p id="nextLevelLabel" class="ins-vs">500 XP until Rank 2</p>
+              <p id="nextLevelLabel" class="ins-vs">
+                500 XP until Awakened Seeker
+              </p>
+
+              <div id="rankPips" class="rk-pips" aria-hidden="true"></div>
             </section>
 
             <section class="ins-tile wide">
@@ -603,32 +612,39 @@
                 ></span>
               </summary>
               <div class="st-body">
-                <div class="st-ledger">
-                  <div>
-                    <div id="streakBigNumber" class="ins-mid">0</div>
-                    <div class="ins-vs">Current days</div>
-                  </div>
-                  <div>
-                    <div id="streakBestDisplay" class="ins-mid st-accent">
-                      0
+                <div class="st-hero">
+                  <div class="st-ledger">
+                    <div>
+                      <div id="streakBigNumber" class="ins-mid">0</div>
+                      <div class="ins-vs">Current days</div>
                     </div>
-                    <div class="ins-vs">Best streak</div>
+                    <div>
+                      <div id="streakBestDisplay" class="ins-mid st-accent">
+                        0
+                      </div>
+                      <div class="ins-vs">Best streak</div>
+                    </div>
+                    <div>
+                      <div id="streak1kDisplay" class="ins-mid">0</div>
+                      <div class="ins-vs">1k milestones</div>
+                    </div>
                   </div>
-                  <div>
-                    <div id="streak1kDisplay" class="ins-mid">0</div>
-                    <div class="ins-vs">1k milestones</div>
+                  <div class="st-week">
+                    <p class="ins-vs st-gap">Recent 7 days</p>
+                    <div
+                      id="streakWeekRow"
+                      class="flex justify-between gap-1.5"
+                    ></div>
                   </div>
                 </div>
                 <div>
-                  <p class="ins-vs st-gap">Recent 7 days</p>
-                  <div
-                    id="streakWeekRow"
-                    class="flex justify-between gap-1.5"
-                  ></div>
-                </div>
-                <div>
-                  <p class="ins-vs st-gap">Achievements</p>
-                  <div id="badgesContainer" class="space-y-1.5"></div>
+                  <div class="ins-row">
+                    <span class="ins-vs">Achievements</span>
+                    <span id="badgesHint" class="ins-vs"></span>
+                  </div>
+                  <div class="badges-rail">
+                    <div id="badgesContainer" class="badges-track"></div>
+                  </div>
                 </div>
                 <p class="pg-note">
                   A streak grows for every consecutive day with at least one
@@ -660,28 +676,12 @@
           <section>
             <p class="pg-label">About</p>
             <div class="st-row">
-              <span>App version</span><span class="st-val">4.2.0.49</span>
+              <span>App version</span><span class="st-val">4.2.1.50</span>
             </div>
             <div class="st-row">
               <span>Last update</span
               ><span id="last-update-days" class="st-val"></span>
             </div>
-            <button id="openDuasModalBtn" class="st-row">
-              <span>Duas</span
-              ><span class="st-chev"
-                ><svg
-                  viewBox="0 0 24 24"
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" /></svg
-              ></span>
-            </button>
             <button id="infoBtn" class="st-row">
               <span>Virtues of Istighfar</span
               ><span class="st-chev"
@@ -737,17 +737,20 @@
       </button>
       <button class="nav-btn" data-view="prayers">
         <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
           viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
         >
-          <path d="M12 2l2 3h-4l2-3z" />
-          <path d="M5 21V11a7 7 0 0114 0v10" />
-          <path d="M9 21v-5a3 3 0 016 0v5" />
-          <path d="M3 21h18" />
+          <title>mosque</title>
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13.5 5.49A1.764 1.764 0 0 1 11 3m1 3v3m7 12a8.9 8.9 0 0 0 1-3.67c0-2-.92-3.25-3.24-4.51A17.4 17.4 0 0 1 12 9a17.4 17.4 0 0 1-4.76 3.82C4.92 14.08 4 15.37 4 17.33A8.9 8.9 0 0 0 5 21z"
+          />
         </svg>
         <span>Prayers</span>
       </button>
@@ -827,7 +830,7 @@
     <!-- Virtues Modal -->
     <div id="infoModal" class="modal-overlay hidden">
       <div
-        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
+        class="modal-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
       >
         <div
           class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"
@@ -895,86 +898,7 @@
       </div>
     </div>
 
-    <!-- Duas Modal -->
-    <div id="duasModal" class="modal-overlay hidden" style="z-index: 60">
-      <div
-        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
-      >
-        <div
-          class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"
-        >
-          <h3
-            class="font-semibold text-[13px] text-slate-100 flex items-center gap-1.5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3 h-3 theme-accent-text"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"
-              />
-            </svg>
-            Duas
-          </h3>
-          <button
-            id="closeDuasModalBtn"
-            class="text-slate-500 hover:text-slate-100 p-1"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              class="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        <div class="space-y-2 text-[11px] text-slate-300 leading-relaxed">
-          <div class="p-2.5 bg-black/20 rounded-xl border border-white/[0.05]">
-            <span class="font-semibold text-slate-100 block mb-1"
-              >أَسْتَغْفِرُ اللَّهَ</span
-            >
-            I seek forgiveness from Allah.
-          </div>
-          <div class="p-2.5 bg-black/20 rounded-xl border border-white/[0.05]">
-            <span class="font-semibold text-slate-100 block mb-1"
-              >أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</span
-            >
-            I seek forgiveness from Allah and turn to Him in repentance.
-          </div>
-          <div class="p-2.5 bg-black/20 rounded-xl border border-white/[0.05]">
-            <span class="font-semibold text-slate-100 block mb-1"
-              >رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ
-              الرَّحِيمُ</span
-            >
-            My Lord, forgive me and accept my repentance. Indeed, You are the
-            Acceptor of repentance, the Merciful.
-          </div>
-          <div class="p-2.5 bg-black/20 rounded-xl border border-white/[0.05]">
-            <span class="font-semibold text-slate-100 block mb-1">
-              سُبْحَانَ اللهِ وَبِحَمْدِهِ، أَسْتَغْفِرُ اللهَ وَأَتُوبُ
-              إِلَيْهِ</span
-            >
-            Glory be to Allah and praise Him; I seek forgiveness from Allah and
-            turn to Him in repentance.
-          </div>
-          <p class="pg-note">
-            The dua chosen on the Home screen is the one counted in your current
-            session.
-          </p>
-        </div>
-      </div>
-    </div>
+    
 
     <!-- Name of the Day Modal -->
     <div id="nameOfDayModal" class="modal-overlay hidden" style="z-index: 60">
@@ -1453,7 +1377,7 @@
     <!-- About Modal -->
     <div id="aboutModal" class="modal-overlay hidden" style="z-index: 60">
       <div
-        class="modal-panel accent-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
+        class="modal-panel max-w-md max-h-[85vh] overflow-y-auto space-y-3"
       >
         <div
           class="flex justify-between items-center border-b border-white/[0.06] pb-2.5"

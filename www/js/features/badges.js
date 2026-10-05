@@ -13,6 +13,7 @@ import {
   toastIcon,
   floatContainer,
   statBadgesEarned,
+  badgesHint,
 } from "../core/dom.js";
 import { playMilestoneSound } from "../core/audio.js";
 
@@ -25,13 +26,25 @@ export function spawnFloatingText(text) {
   setTimeout(() => el.remove(), 1400);
 }
 
+let toastHideTimer = null;
+
 function showMilestoneToast(milestone) {
   toastIcon.innerHTML = SVG_STAR;
-  toastTitle.textContent = `Unlocked: ${milestone.title}`;
+  toastTitle.textContent = milestone.title;
   toastDesc.textContent = milestone.desc;
 
   toastNotification.classList.remove("hidden");
-  setTimeout(() => {
+
+  // Restart the dismiss bar on repeat unlocks inside the same window.
+  const bar = toastNotification.querySelector(".toast-bar > div");
+  if (bar) {
+    bar.style.animation = "none";
+    void bar.offsetWidth;
+    bar.style.animation = "";
+  }
+
+  clearTimeout(toastHideTimer);
+  toastHideTimer = setTimeout(() => {
     toastNotification.classList.add("hidden");
   }, 4500);
 }
@@ -43,17 +56,16 @@ export function renderBadgesList() {
   const currentVal = Math.max(state.count, state.lifetimeTotal);
   const isAnonymous = getIsAnonymous();
 
-  MILESTONES.forEach((m) => {
+  let lastUnlockedIndex = -1;
+
+  MILESTONES.forEach((m, i) => {
     const unlocked = state.unlockedBadges.has(m.count) || currentVal >= m.count;
     if (unlocked && !isAnonymous) state.unlockedBadges.add(m.count);
+    if (unlocked) lastUnlockedIndex = i;
     const tierColor = TIER_COLORS[m.tier % TIER_COLORS.length];
 
     const card = document.createElement("div");
-    card.className = `p-2.5 rounded-xl border flex items-center justify-between transition-all ${
-      unlocked
-        ? "bg-black/25 border-white/[0.08] text-slate-100 soft-shadow-sm"
-        : "bg-black/10 border-white/[0.03] text-slate-600 opacity-60"
-    }`;
+    card.className = `bdg ${unlocked ? "unlocked" : "locked"}`;
 
     const isElite = m.tier >= 6;
     const badgeIcon = getTierIcon(m.tier, unlocked);
@@ -61,46 +73,42 @@ export function renderBadgesList() {
       isElite && unlocked ? `box-shadow:0 0 10px ${tierColor}55;` : "";
 
     card.innerHTML = `
-      <div class="flex items-center space-x-2.5">
-        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:${
+      <div class="bdg-top">
+        <div class="bdg-icon" style="background:${
           unlocked ? tierColor + "22" : "rgba(255,255,255,0.02)"
         }; color:${unlocked ? tierColor : "#475569"}; border:1px solid ${
       unlocked ? tierColor + "55" : "rgba(255,255,255,0.04)"
     }; ${eliteRing}">
           ${badgeIcon}
         </div>
-        <div>
-          <div class="flex items-center gap-1">
-            <div class="text-[11px] font-semibold ${
-              unlocked ? "text-slate-100" : "text-slate-500"
-            }">${m.title}</div>
-            ${
-              isElite && unlocked
-                ? '<span style="font-size:8px;color:' +
-                  tierColor +
-                  ";background:" +
-                  tierColor +
-                  "18;border:1px solid " +
-                  tierColor +
-                  '44;padding:0 5px;border-radius:999px;font-weight:700;letter-spacing:.05em;">ELITE</span>'
-                : ""
-            }
-          </div>
-          <div class="text-[9px] ${
-            unlocked ? "text-slate-500" : "text-slate-600"
-          }">${m.desc}</div>
-        </div>
-      </div>
-      <div>
         ${
           unlocked
-            ? `<span style="font-size:8px;font-weight:700;color:${tierColor};background:${tierColor}18;padding:2px 8px;border-radius:999px;border:1px solid ${tierColor}33;">UNLOCKED</span>`
-            : `<span class="text-[9px] text-slate-600 font-medium">${m.count.toLocaleString()} taps</span>`
+            ? `<span class="bdg-tag" style="color:${tierColor};background:${tierColor}18;border-color:${tierColor}33">UNLOCKED</span>`
+            : `<span class="bdg-count">${m.count.toLocaleString()}</span>`
         }
       </div>
+      <div class="bdg-title">${m.title}${
+        isElite && unlocked
+          ? `<span class="bdg-elite" style="color:${tierColor};background:${tierColor}18;border-color:${tierColor}44">ELITE</span>`
+          : ""
+      }</div>
+      <div class="bdg-desc">${m.desc}</div>
     `;
     badgesContainer.appendChild(card);
   });
+
+  // Park the rail on the newest unlock so the next goal is in view. Assigned
+  // directly rather than scrolled smoothly: this runs on init, when the
+  // details panel may still be collapsed and the track has no width yet.
+  if (lastUnlockedIndex >= 0) {
+    const card = badgesContainer.children[lastUnlockedIndex];
+    const target =
+      card.offsetLeft - badgesContainer.offsetLeft - badgesContainer.offsetWidth * 0.15;
+    badgesContainer.scrollLeft = Math.max(0, target);
+  }
+
+  if (badgesHint)
+    badgesHint.textContent = `${state.unlockedBadges.size}/${MILESTONES.length}`;
 
   if (statBadgesEarned)
     statBadgesEarned.textContent = `${state.unlockedBadges.size}/${MILESTONES.length}`;

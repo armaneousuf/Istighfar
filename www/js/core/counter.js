@@ -8,7 +8,7 @@ import {
   setAnonymousCount,
 } from "./app-state.js";
 import { getCurrentStreak, getLongestStreak } from "./dates.js";
-import { MILESTONES } from "../data/milestones.js";
+import { MILESTONES, RANKS } from "../data/milestones.js";
 import {
   counterDisplay,
   focusCount,
@@ -20,9 +20,12 @@ import {
   goalChipValue,
   ringCircumference,
   modalLevelTitle,
+  modalRankNumber,
+  modalRankOf,
   modalXpText,
   xpProgressBar,
   nextLevelLabel,
+  rankPips,
   statTotalIstighfar,
   statStreak,
   statBestStreak,
@@ -100,79 +103,35 @@ function updateRankDisplay() {
 
   if (isAnonymous) {
     if (modalLevelTitle) modalLevelTitle.textContent = "Anonymous Mode";
+    if (modalRankNumber) modalRankNumber.textContent = "--";
+    if (modalRankOf) modalRankOf.textContent = "";
     if (modalXpText) modalXpText.textContent = "Session Only";
+    if (xpProgressBar) xpProgressBar.style.width = "0%";
+    if (nextLevelLabel) nextLevelLabel.textContent = "Nothing is saved in this session";
+    if (rankPips) rankPips.innerHTML = "";
     return;
   }
 
   const effectiveTotal = Math.max(state.count, state.lifetimeTotal);
 
-  let rank, lvl, nextThreshold;
-
-  if (effectiveTotal >= 10000000) {
-    rank = "Al-Musaafir";
-    lvl = 15;
-    nextThreshold = Infinity;
-  } else if (effectiveTotal >= 5000000) {
-    rank = "Eternal Remembrance";
-    lvl = 14;
-    nextThreshold = 10000000;
-  } else if (effectiveTotal >= 2500000) {
-    rank = "Beacon of Devotion";
-    lvl = 13;
-    nextThreshold = 5000000;
-  } else if (effectiveTotal >= 1000000) {
-    rank = "Master of Istighfar";
-    lvl = 12;
-    nextThreshold = 2500000;
-  } else if (effectiveTotal >= 500000) {
-    rank = "Pillar of Repentance";
-    lvl = 11;
-    nextThreshold = 1000000;
-  } else if (effectiveTotal >= 250000) {
-    rank = "Cosmic Master";
-    lvl = 10;
-    nextThreshold = 500000;
-  } else if (effectiveTotal >= 100000) {
-    rank = "Light Bearer";
-    lvl = 9;
-    nextThreshold = 250000;
-  } else if (effectiveTotal >= 50000) {
-    rank = "Ocean of Mercy";
-    lvl = 8;
-    nextThreshold = 100000;
-  } else if (effectiveTotal >= 25000) {
-    rank = "Celestial Pilgrim";
-    lvl = 7;
-    nextThreshold = 50000;
-  } else if (effectiveTotal >= 10000) {
-    rank = "Radiant Heart";
-    lvl = 6;
-    nextThreshold = 25000;
-  } else if (effectiveTotal >= 5000) {
-    rank = "Champion Seeker";
-    lvl = 5;
-    nextThreshold = 10000;
-  } else if (effectiveTotal >= 2500) {
-    rank = "Golden Adept";
-    lvl = 4;
-    nextThreshold = 5000;
-  } else if (effectiveTotal >= 1000) {
-    rank = "Devoted Pilgrim";
-    lvl = 3;
-    nextThreshold = 2500;
-  } else if (effectiveTotal >= 500) {
-    rank = "Awakened Seeker";
-    lvl = 2;
-    nextThreshold = 1000;
-  } else {
-    rank = "Novice Seeker";
-    lvl = 1;
-    nextThreshold = 500;
+  // Walk the shared rank table backwards for the highest rank the total has
+  // reached, then the next one up is this rank's ceiling.
+  let rankIndex = 0;
+  for (let i = RANKS.length - 1; i >= 0; i--) {
+    if (effectiveTotal >= RANKS[i].at) {
+      rankIndex = i;
+      break;
+    }
   }
+  const current = RANKS[rankIndex];
+  const next = RANKS[rankIndex + 1];
+  const nextThreshold = next ? next.at : Infinity;
 
-  if (modalLevelTitle) modalLevelTitle.textContent = `Rank ${lvl} • ${rank}`;
+  if (modalLevelTitle) modalLevelTitle.textContent = current.name;
+  if (modalRankNumber) modalRankNumber.textContent = `${rankIndex + 1}`;
   if (modalXpText)
     modalXpText.textContent = `${effectiveTotal.toLocaleString()} XP`;
+  if (modalRankOf) modalRankOf.textContent = `of ${RANKS.length}`;
 
   const xpPercent =
     nextThreshold === Infinity
@@ -183,11 +142,28 @@ function updateRankDisplay() {
     nextLevelLabel.textContent =
       nextThreshold === Infinity
         ? "Al-Musaafir achieved — SubhanAllah!"
-        : `${(
-            nextThreshold - effectiveTotal
-          ).toLocaleString()} XP until next rank`;
+        : `${(nextThreshold - effectiveTotal).toLocaleString()} XP until ${
+            next.name
+          }`;
   }
+
+  renderRankPips(rankIndex);
 }
+
+/* 15 pips, one per rank: filled up to the current rank, hollow above it. */
+function renderRankPips(currentIndex) {
+  if (!rankPips) return;
+  if (rankPips.childElementCount !== RANKS.length) {
+    rankPips.innerHTML = RANKS.map((r) => `<i data-at="${r.at}"></i>`).join("");
+  }
+  Array.from(rankPips.children).forEach((pip, i) => {
+    pip.classList.toggle("on", i <= currentIndex);
+    pip.classList.toggle("current", i === currentIndex);
+    pip.setAttribute("title", RANKS[i].name);
+  });
+}
+
+
 
 export function updateProgress() {
   const state = getState();

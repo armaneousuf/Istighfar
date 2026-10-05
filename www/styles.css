@@ -104,6 +104,107 @@ body {
   border-color: var(--border-color);
 }
 
+/* Milestone toast: one quiet line on the accent-tinted surface. Icon, title,
+   description and a dismiss timer that drains along the bottom edge. */
+.toast-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon title"
+    "icon desc"
+    "bar  bar";
+  column-gap: 10px;
+  row-gap: 1px;
+  align-items: center;
+  padding: 9px 12px 8px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 26%, transparent);
+  background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 10px 28px -12px rgba(0, 0, 0, 0.6);
+  animation: toastIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .toast-card {
+    border-color: rgba(167, 139, 250, 0.26);
+    background: rgba(167, 139, 250, 0.12);
+  }
+}
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.toast-icon {
+  grid-area: icon;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+}
+.toast-icon svg {
+  width: 13px;
+  height: 13px;
+}
+.toast-title {
+  grid-area: title;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.toast-desc {
+  grid-area: desc;
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.toast-bar {
+  grid-area: bar;
+  margin-top: 8px;
+  height: 2px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+}
+.toast-bar > div {
+  height: 100%;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--accent-color);
+  transform-origin: left;
+  animation: toastDrain 4.5s linear forwards;
+}
+@keyframes toastDrain {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast-card {
+    animation: none;
+  }
+  .toast-bar > div {
+    animation: none;
+  }
+}
+
 .soft-shadow {
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.45),
     0 2px 8px -2px rgba(0, 0, 0, 0.3);
@@ -395,22 +496,20 @@ body.anonymous-mode .hide-in-anonymous {
   width: 18px;
   height: 18px;
 }
+/* The mosque glyph only fills the lower two thirds of its viewBox, so it reads
+   smaller than the other icons at the same box size. */
+.nav-btn svg[viewBox="0 0 24 24"][width="1em"] {
+  width: 21px;
+  height: 21px;
+}
 .nav-btn span {
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+/* Active tab reads purely through colour — no top rule, no chip. */
 .nav-btn.active {
   color: var(--accent-color);
-}
-.nav-btn.active::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 22px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--accent-color);
 }
 
 /* Goal chip */
@@ -710,6 +809,56 @@ body.anonymous-mode .hide-in-anonymous {
   font-size: 16px;
   font-weight: 600;
   color: var(--ink);
+}
+/* Number badge + rank name, with the position in the ladder on the right. */
+.rk-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.rk-badge {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #0b0a10;
+  background: var(--accent-color);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 45%, transparent),
+    0 0 20px -6px var(--accent-glow);
+}
+.rk-head-text {
+  min-width: 0;
+}
+.rk-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+/* One pip per rank, filled up to where you currently are. */
+.rk-pips {
+  display: flex;
+  gap: 3px;
+  margin-top: 16px;
+}
+.rk-pips i {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.rk-pips i.on {
+  background: color-mix(in srgb, var(--accent-color) 45%, transparent);
+}
+.rk-pips i.current {
+  background: var(--accent-color);
+  box-shadow: 0 0 8px -1px var(--accent-glow);
 }
 .ins-bar {
   height: 6px;
@@ -1182,9 +1331,20 @@ body.anonymous-mode .hide-in-anonymous {
 }
 
 /* ===== Prayers ===== */
+/* Next prayer is the one raised, accented surface here, mirroring the
+   Insights "Today" hero. */
 .pr-next {
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(167, 139, 250, 0.05);
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+  background: rgba(167, 139, 250, 0.14);
+  background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+}
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .pr-next {
+    border-color: rgba(167, 139, 250, 0.3);
+    background: rgba(167, 139, 250, 0.14);
+  }
 }
 .pr-next-row {
   display: flex;
@@ -1290,16 +1450,136 @@ body.anonymous-mode .hide-in-anonymous {
   gap: 18px;
   padding: 16px 2px 6px;
 }
+/* Streak summary: the one raised, accented surface here, matching the
+   Insights "Today" hero. Holds the ledger and the week strip. */
+.st-hero {
+  padding: 16px 14px 14px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+  background: rgba(167, 139, 250, 0.14);
+  background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+}
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .st-hero {
+    border-color: rgba(167, 139, 250, 0.3);
+    background: rgba(167, 139, 250, 0.14);
+  }
+}
 .st-ledger {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+}
+/* Inactive days need a touch more contrast to read against the accent fill. */
+.st-hero .streak-dot.bg-white\/\[0\.05\] {
+  background-color: rgba(255, 255, 255, 0.09);
+}
+.st-week {
+  margin-top: 16px;
 }
 .st-accent {
   color: var(--accent-color);
 }
 .st-gap {
   margin-bottom: 8px;
+}
+
+/* Achievements: a horizontal snap rail instead of one long list. The rail is
+   inset so cards can bleed to the screen edge while the track scrolls inside. */
+.badges-rail {
+  margin: 10px -14px 0;
+  overflow: hidden;
+}
+.badges-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 2px 14px 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.badges-track::-webkit-scrollbar {
+  display: none;
+}
+.bdg {
+  flex: 0 0 auto;
+  width: 168px;
+  scroll-snap-align: start;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.bdg.unlocked {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.4),
+    0 1px 4px -1px rgba(0, 0, 0, 0.25);
+}
+.bdg.locked {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.03);
+}
+.bdg-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bdg-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bdg-icon svg {
+  width: 15px;
+  height: 15px;
+}
+.bdg-tag,
+.bdg-elite {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.bdg-count {
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.bdg-title {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.bdg.unlocked .bdg-title {
+  color: #f1f5f9;
+}
+.bdg.locked .bdg-title {
+  color: #64748b;
+}
+.bdg-desc {
+  margin-top: 3px;
+  font-size: 9px;
+  line-height: 1.4;
+}
+.bdg.unlocked .bdg-desc {
+  color: #64748b;
+}
+.bdg.locked .bdg-desc {
+  color: #475569;
 }
 
 @media (prefers-reduced-motion: reduce) {
