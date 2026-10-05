@@ -9,7 +9,7 @@ import {
   nameOfDayTranslit,
   nameOfDayMeaning,
   nameOfDayTrack,
-  nameOfDayRemaining,
+  nameOfDayCount,
 } from "../core/dom.js";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -60,6 +60,14 @@ function resolveNameOfTheDay() {
   return { name: getNameByIndex(index), index, total: NAMES_COUNT };
 }
 
+// Most names are short enough for the full size, but Dhu al-Jalali wa al-Ikram
+// and Malik-ul-Mulk are long enough to wrap, so they step down instead.
+function arabicSizeFor(name) {
+  if (name.arabic.length > 20) return "24px";
+  if (name.arabic.length > 14) return "30px";
+  return "44px";
+}
+
 export function renderNameOfTheDay() {
   if (!nameOfDayArabic) return;
   const today = resolveNameOfTheDay();
@@ -67,14 +75,15 @@ export function renderNameOfTheDay() {
   const { name, index, total } = today;
 
   nameOfDayArabic.textContent = name.arabic;
+  nameOfDayArabic.style.setProperty("--nd-size", arabicSizeFor(name));
   nameOfDayTranslit.textContent = name.translit;
   nameOfDayMeaning.textContent = name.meaning;
 
   if (nameOfDayTrack) {
     nameOfDayTrack.style.width = `${((index + 1) / total) * 100}%`;
   }
-  if (nameOfDayRemaining) {
-    nameOfDayRemaining.textContent = `${total - index} remaining of ${total}`;
+  if (nameOfDayCount) {
+    nameOfDayCount.textContent = `Day ${index + 1} of ${total}`;
   }
 }
 

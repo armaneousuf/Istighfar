@@ -356,12 +356,6 @@ body.anonymous-mode .hide-in-anonymous {
   width: 15px;
   height: 15px;
 }
-/* The Name of the day badge fills its whole viewBox, so it needs a larger box
-   inside the same 34px button than the flatter line icons beside it. */
-#nameOfDayBtn svg {
-  width: 20px;
-  height: 20px;
-}
 .hd-icon-btn:hover,
 .hd-icon-btn:active {
   color: #f1f5f9;
@@ -509,49 +503,53 @@ body.anonymous-mode .hide-in-anonymous {
     background: rgba(167, 139, 250, 0.14);
   }
 }
-/* The Name of the day card sits directly on that surface, so it adds no second
-   box of its own. */
-.accent-panel .nd-card {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+/* Name of the day: a centred name block over a slim progress rule. The header
+   is the only left/right split; everything else stacks on one axis. */
+.nd-panel {
+  padding: 30px 28px;
 }
-.nd-top {
+.nd-header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 12px;
 }
-/* Arabic reads right-to-left, so the name sits on the right and the
-   pronunciation balances it on the left. */
-.nd-arabic {
-  font-size: 26px;
-  line-height: 1.7;
-  font-weight: 700;
-  color: #f1f5f9;
-  text-align: right;
-}
-.nd-translit {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-color);
-  text-align: left;
-}
-.nd-meaning {
-  margin-top: 12px;
-  font-size: 19px;
-  line-height: 1.3;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #f1f5f9;
+.nd-body {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
+.nd-arabic {
+  /* Set per name in JS: the two long names step down so they stay on one line. */
+  font-size: var(--nd-size, 44px);
+  /* Tight so the two long names stay compact if they wrap. */
+  line-height: 1.3;
+  font-weight: 700;
+  color: #f1f5f9;
+  max-width: 100%;
+}
+.nd-translit {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+.nd-meaning {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: rgba(226, 232, 240, 0.72);
+}
+.nd-foot {
+  margin-top: 24px;
+}
 .nd-track {
-  margin-top: 18px;
-  height: 6px;
+  height: 3px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -563,7 +561,7 @@ body.anonymous-mode .hide-in-anonymous {
   transition: width 0.5s ease;
 }
 .nd-meta {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 12px;
   color: #7f8797;
   text-align: center;

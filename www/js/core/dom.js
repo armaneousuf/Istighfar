@@ -95,7 +95,7 @@ export const nameOfDayArabic = getEl("nameOfDayArabic");
 export const nameOfDayTranslit = getEl("nameOfDayTranslit");
 export const nameOfDayMeaning = getEl("nameOfDayMeaning");
 export const nameOfDayTrack = getEl("nameOfDayTrack");
-export const nameOfDayRemaining = getEl("nameOfDayRemaining");
+export const nameOfDayCount = getEl("nameOfDayCount");
 
 export const ringRadius = 124;
 export const ringCircumference = 2 * Math.PI * ringRadius;
