@@ -1,7 +1,7 @@
 // The 99 Names of Allah (Asma ul Husna), as listed in the well-known narration
 // (Jami' at-Tirmidhi 3507). Each entry carries the Arabic, a Latin
 // transliteration, and a short English meaning for the "Name of the day" card.
-export const NAMES_OF_ALLAH = [
+const NAMES_OF_ALLAH = [
   { arabic: "الرَّحْمَٰن", translit: "Ar-Rahman", meaning: "The Most Compassionate" },
   { arabic: "الرَّحِيم", translit: "Ar-Raheem", meaning: "The Most Merciful" },
   { arabic: "الْمَلِك", translit: "Al-Malik", meaning: "The King, The Sovereign" },

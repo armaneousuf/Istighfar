@@ -2,7 +2,7 @@ import { getState } from "./app-state.js";
 
 let audioCtx = null;
 
-export function getAudioContext() {
+function getAudioContext() {
   if (!audioCtx) {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return null;
@@ -12,7 +12,7 @@ export function getAudioContext() {
   return audioCtx;
 }
 
-export function primeAudio() {
+function primeAudio() {
   const ctx = getAudioContext();
   if (!ctx) return;
   try {

@@ -8,11 +8,10 @@ import {
   setAnonymousCount,
 } from "./app-state.js";
 import { getCurrentStreak, getLongestStreak } from "./dates.js";
-import { MILESTONES, RANKS } from "../data/milestones.js";
+import { RANKS } from "../data/milestones.js";
 import {
   counterDisplay,
   focusCount,
-  todayTotalDisplay,
   lifetimeTotalDisplay,
   progressRing,
   tapBtn,
@@ -26,11 +25,7 @@ import {
   xpProgressBar,
   nextLevelLabel,
   rankPips,
-  statTotalIstighfar,
   statStreak,
-  statBestStreak,
-  stat1kCount,
-  statBadgesEarned,
   streakBigNumber,
   streakBestDisplay,
   streak1kDisplay,
@@ -172,14 +167,10 @@ export function updateProgress() {
   counterDisplay.textContent = currentDisplayCount.toLocaleString();
   if (focusCount) focusCount.textContent = currentDisplayCount.toLocaleString();
 
-  if (isAnonymous) {
-    if (todayTotalDisplay) todayTotalDisplay.textContent = "—";
-    if (lifetimeTotalDisplay) lifetimeTotalDisplay.textContent = "—";
-  } else {
-    if (todayTotalDisplay)
-      todayTotalDisplay.textContent = state.todayTotal.toLocaleString();
-    if (lifetimeTotalDisplay)
-      lifetimeTotalDisplay.textContent = state.lifetimeTotal.toLocaleString();
+  if (lifetimeTotalDisplay) {
+    lifetimeTotalDisplay.textContent = isAnonymous
+      ? "—"
+      : state.lifetimeTotal.toLocaleString();
   }
 
   const progress = Math.min(currentDisplayCount / state.target, 1);
@@ -192,15 +183,9 @@ export function updateProgress() {
     tapBtn.classList.remove("glow-pulse");
   }
 
-  if (statTotalIstighfar)
-    statTotalIstighfar.textContent = state.lifetimeTotal.toLocaleString();
   if (statStreak) statStreak.textContent = `${state.streakDays}`;
-  if (statBestStreak) statBestStreak.textContent = `${state.bestStreak}`;
-  const kCompletedCount = Math.floor(state.lifetimeTotal / 1000);
-  if (stat1kCount) stat1kCount.textContent = kCompletedCount.toLocaleString();
-  if (statBadgesEarned)
-    statBadgesEarned.textContent = `${state.unlockedBadges.size}/${MILESTONES.length}`;
 
+  const kCompletedCount = Math.floor(state.lifetimeTotal / 1000);
   if (streakBigNumber) streakBigNumber.textContent = state.streakDays;
   if (streakBestDisplay) streakBestDisplay.textContent = state.bestStreak;
   if (streak1kDisplay) streak1kDisplay.textContent = kCompletedCount;

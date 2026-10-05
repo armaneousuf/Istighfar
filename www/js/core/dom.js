@@ -5,7 +5,6 @@ export const targetLabel = getEl("targetLabel");
 export const progressRing = getEl("progressRing");
 export const tapBtn = getEl("tapBtn");
 export const duaSelect = getEl("duaSelect");
-export const todayTotalDisplay = getEl("todayTotalDisplay");
 export const lifetimeTotalDisplay = getEl("lifetimeTotalDisplay");
 export const floatContainer = getEl("floatContainer");
 export const badgesContainer = getEl("badgesContainer");
@@ -33,7 +32,6 @@ export const infoModal = getEl("infoModal");
 export const infoBtn = getEl("infoBtn");
 export const closeInfoModal = getEl("closeInfoModal");
 
-export const settingsModal = getEl("view-settings");
 export const lastUpdateLabel = getEl("last-update-days");
 
 export const targetModal = getEl("targetModal");
@@ -49,7 +47,6 @@ export const importFileInput = getEl("importFileInput");
 export const fullResetBtn = getEl("fullResetBtn");
 
 export const weeklyChartCanvas = getEl("weeklyChartCanvas");
-export const chartTotalLabel = getEl("chartTotalLabel");
 export const heatmapGrid = getEl("heatmapGrid");
 export const heatmapMonths = getEl("heatmapMonths");
 export const insightDate = getEl("insightDate");
@@ -73,11 +70,7 @@ export const xpProgressBar = getEl("xpProgressBar");
 export const nextLevelLabel = getEl("nextLevelLabel");
 export const rankPips = getEl("rankPips");
 
-export const statTotalIstighfar = getEl("lifetimeTotalDisplay");
 export const statStreak = getEl("statStreak");
-export const statBestStreak = getEl("statBestStreak");
-export const stat1kCount = getEl("stat1kCount");
-export const statBadgesEarned = getEl("statBadgesEarned");
 export const badgesHint = getEl("badgesHint");
 
 export const streakBigNumber = getEl("streakBigNumber");
@@ -99,7 +92,6 @@ export const nameOfDayArabic = getEl("nameOfDayArabic");
 export const nameOfDayTranslit = getEl("nameOfDayTranslit");
 export const nameOfDayMeaning = getEl("nameOfDayMeaning");
 export const nameOfDayTrack = getEl("nameOfDayTrack");
-export const nameOfDayCount = getEl("nameOfDayCount");
 
-export const ringRadius = 124;
+const ringRadius = 124;
 export const ringCircumference = 2 * Math.PI * ringRadius;

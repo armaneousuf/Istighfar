@@ -9,7 +9,6 @@ import {
   nameOfDayTranslit,
   nameOfDayMeaning,
   nameOfDayTrack,
-  nameOfDayCount,
 } from "../core/dom.js";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -81,9 +80,6 @@ export function renderNameOfTheDay() {
 
   if (nameOfDayTrack) {
     nameOfDayTrack.style.width = `${((index + 1) / total) * 100}%`;
-  }
-  if (nameOfDayCount) {
-    nameOfDayCount.textContent = `Day ${index + 1} of ${total}`;
   }
 }
 

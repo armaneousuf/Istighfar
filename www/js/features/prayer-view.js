@@ -38,7 +38,7 @@ function updateNextPrayerCountdown() {
   }`;
 }
 
-export function renderPrayerTimes(latitude, longitude) {
+function renderPrayerTimes(latitude, longitude) {
   const times = calculatePrayerTimes(latitude, longitude);
   const entries = [
     ["Fajr", times.fajr],

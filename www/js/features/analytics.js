@@ -3,7 +3,6 @@ import { getState } from "../core/app-state.js";
 import { getRecentDays, getMonthTotal } from "../core/dates.js";
 import {
   weeklyChartCanvas,
-  chartTotalLabel,
   heatmapGrid,
   heatmapMonths,
   insightDate,
@@ -51,16 +50,11 @@ export function renderWeeklyChart() {
 
   const days = [];
   const counts = [];
-  let weeklySum = 0;
 
   getRecentDays(state.dailyHistory, 7).forEach(({ date: d, count }) => {
-    weeklySum += count;
     days.push(d.toLocaleDateString("en-US", { weekday: "short" }));
     counts.push(count);
   });
-
-  if (chartTotalLabel)
-    chartTotalLabel.textContent = `${weeklySum.toLocaleString()} in 7 days`;
 
   const barColors = counts.map((_, i) =>
     i === counts.length - 1 ? accentRgba(1) : accentRgba(0.4),

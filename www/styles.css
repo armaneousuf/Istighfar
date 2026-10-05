@@ -512,46 +512,6 @@ body.anonymous-mode .hide-in-anonymous {
   color: var(--accent-color);
 }
 
-/* Goal chip */
-.goal-chip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: #cbd5e1;
-  font-size: 11px;
-  font-weight: 600;
-}
-.goal-chip svg {
-  width: 12px;
-  height: 12px;
-  color: var(--accent-color);
-}
-
-/* Streaks view flame */
-.streak-flame-wrap {
-  width: 132px;
-  height: 132px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(
-    circle,
-    rgba(249, 115, 22, 0.16) 0%,
-    transparent 70%
-  );
-  border: 1px solid rgba(249, 115, 22, 0.2);
-}
-.streak-flame-wrap svg {
-  width: 56px;
-  height: 56px;
-  color: #fb923c;
-  filter: drop-shadow(0 0 14px rgba(251, 146, 60, 0.45));
-}
 .streak-dot {
   width: 26px;
   height: 26px;
@@ -659,24 +619,6 @@ body.anonymous-mode .hide-in-anonymous {
   background: var(--accent-color);
   transition: width 0.5s ease;
 }
-.nd-meta {
-  margin-top: 12px;
-  font-size: 12px;
-  color: #7f8797;
-  text-align: center;
-}
-
-/* Prayers placeholder rows */
-.prayer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border-radius: 0.75rem;
-  background: rgba(255, 255, 255, 0.025);
-  border-bottom: 1px solid rgba(167, 139, 250, 0.05);
-  font-family: "Inter", sans-serif;
-}
 
 /* ===== Insights view ===== */
 .ins-stack {
@@ -756,16 +698,6 @@ body.anonymous-mode .hide-in-anonymous {
   margin-top: 10px;
 }
 /* Standard panels */
-.ins-panel {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.055),
-    rgba(255, 255, 255, 0.02)
-  );
-  border: 1px solid rgba(167, 139, 250, 0.08);
-  border-radius: 16px;
-  padding: 16px;
-}
 .ins-compare {
   display: flex;
   align-items: center;
@@ -795,15 +727,6 @@ body.anonymous-mode .hide-in-anonymous {
   height: 112px;
   margin-top: 14px;
 }
-.ins-divider {
-  height: 1px;
-  background: var(--line);
-  margin: 16px 0 14px;
-}
-.ins-panel .ins-mid {
-  margin-top: 6px;
-}
-
 /* Rank */
 .ins-rank {
   font-size: 16px;
@@ -818,14 +741,14 @@ body.anonymous-mode .hide-in-anonymous {
   margin-top: 14px;
 }
 .rk-badge {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: #0b0a10;
@@ -1165,23 +1088,6 @@ body.anonymous-mode .hide-in-anonymous {
   transform: translateY(-50%);
   color: var(--ink-3);
   pointer-events: none;
-}
-.hp-phrase {
-  max-height: 120px;
-  overflow-y: auto;
-  text-align: center;
-  padding: 6px 8px 0;
-}
-.hp-arabic {
-  font-size: 20px;
-  line-height: 1.5;
-  font-weight: 700;
-  color: var(--ink);
-}
-.hp-trans {
-  margin-top: 2px;
-  font-size: 13px;
-  color: var(--ink-2);
 }
 .hp-stage {
   width: 100%;

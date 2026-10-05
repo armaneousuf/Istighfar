@@ -4,7 +4,6 @@ function plugin() {
 
 const PATTERNS = {
   light: { style: 'LIGHT', webMs: 10 },
-  medium: { style: 'MEDIUM', webMs: [0, 18] },
   success: { style: 'MEDIUM', webMs: [0, 12, 40, 18] },
   selection: { style: 'LIGHT', webMs: 8 }
 };

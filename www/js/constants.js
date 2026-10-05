@@ -12,7 +12,6 @@ export const defaultState = {
   target: 1000,
   todayTotal: 0,
   lifetimeTotal: 0,
-  kCompletedCount: 0,
   streakDays: 0,
   bestStreak: 0,
   lastActiveDate: getFormattedDate(),
@@ -25,24 +24,4 @@ export const defaultState = {
   // rest of the app state so the sequence survives updates and reinstalls.
   nameOfDayIndex: 0,
   nameOfDayDate: getFormattedDate(),
-};
-
-export const duaPhrases = {
-  1: {
-    arabic: "أَسْتَغْفِرُ اللَّهَ",
-    trans: '"I seek forgiveness from Allah"',
-  },
-  2: {
-    arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
-    trans: '"I seek forgiveness from Allah and turn to Him in repentance"',
-  },
-  3: {
-    arabic:
-      "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ",
-    trans: '"O Allah, You are my Lord. There is no deity except You..."',
-  },
-  4: {
-    arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ",
-    trans: '"My Lord, forgive me and accept my repentance"',
-  },
 };

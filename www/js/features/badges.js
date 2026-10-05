@@ -12,12 +12,11 @@ import {
   toastDesc,
   toastIcon,
   floatContainer,
-  statBadgesEarned,
   badgesHint,
 } from "../core/dom.js";
 import { playMilestoneSound } from "../core/audio.js";
 
-export function spawnFloatingText(text) {
+function spawnFloatingText(text) {
   const el = document.createElement("div");
   el.className =
     "floating-milestone text-[13px] font-semibold text-slate-100 bg-slate-900/95 border theme-accent-border px-3 py-1.5 rounded-full soft-shadow backdrop-blur-md flex items-center gap-1.5";
@@ -109,9 +108,6 @@ export function renderBadgesList() {
 
   if (badgesHint)
     badgesHint.textContent = `${state.unlockedBadges.size}/${MILESTONES.length}`;
-
-  if (statBadgesEarned)
-    statBadgesEarned.textContent = `${state.unlockedBadges.size}/${MILESTONES.length}`;
 }
 
 export function checkMilestones() {

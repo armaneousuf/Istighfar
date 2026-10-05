@@ -1,12 +1,44 @@
 import { defaultState, getFormattedDate } from "../constants.js";
 import { clearState } from "../storage.js";
 import { getState, setState, saveState } from "../core/app-state.js";
+import { checkDailyReset } from "../core/counter.js";
 import {
   exportDataBtn,
   importDataBtn,
   importFileInput,
   fullResetBtn,
 } from "../core/dom.js";
+
+// A backup is arbitrary user-supplied JSON, so nothing in it can be trusted
+// on shape. `dailyHistory` feeds streak arithmetic and the heatmap, so keep
+// only YYYY-MM-DD keys with finite, non-negative counts and discard the rest —
+// otherwise a corrupt file poisons persisted state for good.
+function sanitizeHistory(raw) {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const history = {};
+  for (const [date, count] of Object.entries(raw)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    const value = Number(count);
+    if (!Number.isFinite(value) || value < 0) continue;
+    history[date] = Math.floor(value);
+  }
+  return history;
+}
+
+function sanitizeBadges(raw) {
+  if (!Array.isArray(raw)) return new Set();
+  return new Set(raw.filter((id) => Number.isFinite(Number(id))));
+}
+
+function isValidBackup(data) {
+  return (
+    data !== null &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    typeof data.lifetimeTotal === "number" &&
+    Number.isFinite(data.lifetimeTotal)
+  );
+}
 
 export function setupDataManagement({ refresh, applySelectedDua }) {
   if (exportDataBtn) {
@@ -16,8 +48,6 @@ export function setupDataManagement({ refresh, applySelectedDua }) {
 
       const exportPayload = {
         ...state,
-        // Legacy field kept accurate for external readers.
-        kCompletedCount: Math.floor((Number(state.lifetimeTotal) || 0) / 1000),
         unlockedBadges: Array.from(state.unlockedBadges),
       };
       const jsonStr = JSON.stringify(exportPayload, null, 2);
@@ -77,27 +107,19 @@ export function setupDataManagement({ refresh, applySelectedDua }) {
       reader.onload = (event) => {
         try {
           const imported = JSON.parse(event.target.result);
-          if (
-            imported &&
-            typeof imported === "object" &&
-            typeof imported.lifetimeTotal === "number"
-          ) {
+          if (isValidBackup(imported)) {
             setState({
               ...defaultState,
               ...imported,
               selectedDua: imported.selectedDua || "1",
-              unlockedBadges: new Set(
-                Array.isArray(imported.unlockedBadges)
-                  ? imported.unlockedBadges
-                  : [],
-              ),
-              dailyHistory: imported.dailyHistory || {},
+              unlockedBadges: sanitizeBadges(imported.unlockedBadges),
+              dailyHistory: sanitizeHistory(imported.dailyHistory),
             });
-            const state = getState();
-            state.kCompletedCount = Math.floor(
-              (Number(state.lifetimeTotal) || 0) / 1000,
-            );
             saveState();
+
+            // A backup can be days old. Without this the restored counts stay
+            // on screen until the next tap, so reset them against today first.
+            checkDailyReset();
 
             applySelectedDua();
             refresh();
