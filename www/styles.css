@@ -545,16 +545,16 @@ body.anonymous-mode .hide-in-anonymous {
   width: 100%;
   border-radius: 1rem;
   padding: 1rem;
-  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.45),
-    0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.45),
+    0 2px 8px -2px rgba(0, 0, 0, 0.3); */
 }
 
 /* Shared raised, accent-tinted modal surface, matching the Insights "Today" hero. */
 .accent-panel {
   padding: 20px;
   border-radius: 24px;
-  border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
-  background: color-mix(in srgb, var(--accent-color) 14%, transparent);
+  /* border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+  background: color-mix(in srgb, var(--accent-color) 14%, transparent); */
 }
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
   .accent-panel {
