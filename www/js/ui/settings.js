@@ -7,6 +7,7 @@ import {
   cancelTargetBtn,
   soundToggle,
   hapticsToggle,
+  lockInsightsToggle,
   duaSelect,
   lastUpdateLabel,
 } from "../core/dom.js";
@@ -33,6 +34,19 @@ export function updateLastUpdatedLabel() {
   if (diffDays <= 0) lastUpdateLabel.textContent = "Today";
   else if (diffDays === 1) lastUpdateLabel.textContent = "1 day ago";
   else lastUpdateLabel.textContent = `${diffDays} days ago`;
+}
+
+export function applyInsightsLock() {
+  const locked = !!getState().lockInsights;
+  const tab = document.querySelector('[data-view="insights"]');
+
+  lockInsightsToggle.classList.toggle("on", locked);
+  lockInsightsToggle.setAttribute("aria-checked", String(locked));
+
+  if (tab) {
+    tab.disabled = locked;
+    tab.classList.toggle("locked", locked);
+  }
 }
 
 export function setupSettings() {
@@ -97,4 +111,13 @@ export function setupSettings() {
       saveState();
     });
   }
+
+  if (lockInsightsToggle) {
+  lockInsightsToggle.addEventListener("click", () => {
+    const state = getState();
+    state.lockInsights = !state.lockInsights;
+    applyInsightsLock();
+    saveState();
+  });
+}
 }

@@ -511,6 +511,10 @@ body.anonymous-mode .hide-in-anonymous {
 .nav-btn.active {
   color: var(--accent-color);
 }
+.nav-btn.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 .streak-dot {
   width: 26px;

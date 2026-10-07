@@ -20,6 +20,7 @@ export const toastIcon = getEl("toastIcon");
 
 export const soundToggle = getEl("soundToggle");
 export const hapticsToggle = getEl("hapticsToggle");
+export const lockInsightsToggle = getEl("lockInsightsToggle")
 export const undoBtn = getEl("undoBtn");
 export const resetBtn = getEl("resetBtn");
 

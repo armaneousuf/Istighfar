@@ -42,7 +42,7 @@ import {
   disableFocusMode,
   setupBottomNavbar,
 } from "./js/ui/focus-nav.js";
-import { setupSettings, updateLastUpdatedLabel } from "./js/ui/settings.js";
+import { applyInsightsLock, setupSettings, updateLastUpdatedLabel } from "./js/ui/settings.js";
 
 function wireEventListeners() {
   bindGuardedTap(tapBtn, handleTap);
@@ -103,6 +103,7 @@ async function initApp() {
     progressRing.style.strokeDasharray = `${ringCircumference} ${ringCircumference}`;
     soundToggle.classList.toggle("on", getState().soundEnabled);
     hapticsToggle.classList.toggle("on", getState().hapticsEnabled);
+    applyInsightsLock();
     wireEventListeners();
     renderBadgesList();
     renderNameOfTheDay();
