@@ -14,7 +14,7 @@ import {
 import { setTarget, applySelectedDua } from "../core/counter.js";
 import { hapticTap } from "../services/haptics.js";
 
-const APP_LAST_UPDATED = "2026-10-07";
+const APP_LAST_UPDATED = "2026-10-08";
 
 export function updateLastUpdatedLabel() {
   if (!lastUpdateLabel) return;
@@ -39,6 +39,7 @@ export function updateLastUpdatedLabel() {
 export function applyInsightsLock() {
   const locked = !!getState().lockInsights;
   const tab = document.querySelector('[data-view="insights"]');
+  const ledger = document.querySelector(".st-ledger");
 
   lockInsightsToggle.classList.toggle("on", locked);
   lockInsightsToggle.setAttribute("aria-checked", String(locked));
@@ -46,6 +47,10 @@ export function applyInsightsLock() {
   if (tab) {
     tab.disabled = locked;
     tab.classList.toggle("locked", locked);
+  }
+
+  if (ledger) {
+    ledger.classList.toggle("locked", locked);
   }
 }
 
@@ -113,11 +118,11 @@ export function setupSettings() {
   }
 
   if (lockInsightsToggle) {
-  lockInsightsToggle.addEventListener("click", () => {
-    const state = getState();
-    state.lockInsights = !state.lockInsights;
-    applyInsightsLock();
-    saveState();
-  });
-}
+    lockInsightsToggle.addEventListener("click", () => {
+      const state = getState();
+      state.lockInsights = !state.lockInsights;
+      applyInsightsLock();
+      saveState();
+    });
+  }
 }

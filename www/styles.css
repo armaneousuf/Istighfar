@@ -1380,6 +1380,13 @@ body.anonymous-mode .hide-in-anonymous {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
+/* Insights locked: hide the ledger figures behind a blur so the streak
+   numbers are not readable while the Insights tab is disabled. */
+.st-ledger.locked {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
 /* Inactive days need a touch more contrast to read against the accent fill. */
 .st-hero .streak-dot.bg-white\/\[0\.05\] {
   background-color: rgba(255, 255, 255, 0.09);
