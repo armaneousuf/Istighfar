@@ -141,10 +141,21 @@ export function animateViewIn(view) {
       },
     );
 
-    // Children that read as "cards" lift in a gentle cascade. Keep the count
-    // small — long lists (badges, heatmap) would feel sluggish otherwise.
+    // Children that read as "cards" lift in a gentle cascade. The selector is
+    // per-view because each tab nests its cards differently: Settings and
+    // Prayers put them straight in `.pg-stack`, Insights wraps them in
+    // `.ins-stack` and `.ins-grid`. Keep the count small — long lists (badges,
+    // heatmap) would feel sluggish otherwise.
     const items = view.querySelectorAll(
-      ".pg-stack > section, .pg-stack > header, .ins-tile, .pr-next, .pr-list, .st-row, .st-details",
+      [
+        ".pg-stack > section",
+        ".pg-stack > header",
+        ".pg-stack > .st-row",
+        ".pg-stack > .st-details",
+        ".ins-stack > header",
+        ".ins-stack > section",
+        ".ins-grid > .ins-tile",
+      ].join(", "),
     );
     if (items.length) {
       tl.from(

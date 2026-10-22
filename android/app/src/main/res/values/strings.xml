@@ -4,4 +4,9 @@
     <string name="title_activity_main">Istighfar</string>
     <string name="package_name">com.istighfar.app</string>
     <string name="custom_url_scheme">com.istighfar.app</string>
+    <string name="widget_name">Istighfar counter</string>
+    <string name="widget_description">Today\'s Istighfar count, goal progress and streak. Tap +1 to add one.</string>
+    <string name="widget_label">Today</string>
+    <string name="widget_tap_plus_one">Add one Istighfar</string>
+    <string name="widget_open_app">Open Istighfar</string>
 </resources>

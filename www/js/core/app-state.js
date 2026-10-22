@@ -1,4 +1,5 @@
 import { persistStateSafely } from "./persist.js";
+import { syncWidgetState } from "../services/widget.js";
 
 let state = null;
 let isAnonymous = false;
@@ -32,4 +33,7 @@ export function saveState() {
   if (!isAnonymous && state) {
     persistStateSafely(state);
   }
+  // Mirror the counter to native so the home-screen widget can show it. In
+  // Anonymous Mode the widget gets a blank slate rather than private counts.
+  syncWidgetState(state || {}, { anonymous: isAnonymous });
 }

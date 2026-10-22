@@ -15,7 +15,7 @@ import { setTarget, applySelectedDua } from "../core/counter.js";
 import { hapticTap } from "../services/haptics.js";
 import { animateModalIn, animateModalOut } from "../core/motion.js";
 
-const APP_LAST_UPDATED = "2026-10-08";
+const APP_LAST_UPDATED = "2026-10-23";
 
 export function updateLastUpdatedLabel() {
   if (!lastUpdateLabel) return;
