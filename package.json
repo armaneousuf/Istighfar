@@ -1,6 +1,6 @@
 {
   "name": "istighfar-app",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "sw.js",
   "scripts": {

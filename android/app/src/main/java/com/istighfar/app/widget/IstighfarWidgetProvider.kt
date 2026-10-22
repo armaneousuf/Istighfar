@@ -85,7 +85,7 @@ class IstighfarWidgetProvider : AppWidgetProvider() {
             // Prayer times come from the app's saved location. Until one exists
             // the row prompts for it rather than showing a guessed time.
             if (state.nextPrayerName.isBlank()) {
-                views.setTextViewText(R.id.widget_prayer_name, "Set location in app")
+                views.setTextViewText(R.id.widget_prayer_name, "Set location")
                 views.setTextViewText(R.id.widget_prayer_time, "")
             } else {
                 val day = if (state.nextPrayerTomorrow) "Fajr · tomorrow" else state.nextPrayerName
