@@ -6,7 +6,6 @@
 
     <!-- Home-screen widget: same palette as the web app. -->
     <color name="widgetBg">#17141e</color>
-    <color name="widgetBgDeep">#0b0a10</color>
     <color name="widgetAccent">#a78bfa</color>
     <color name="widgetText">#f1f5f9</color>
     <color name="widgetTextDim">#a9b0bf</color>

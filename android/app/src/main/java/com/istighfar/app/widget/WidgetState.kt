@@ -4,11 +4,12 @@ import android.content.Context
 import org.json.JSONObject
 
 /**
- * Snapshot of the counter that the widget renders.
+ * Snapshot the widget renders: today's count plus the next prayer.
  *
  * The web app writes this JSON into Preferences' SharedPreferences file after
  * every save; the widget only ever reads it. Nothing here is authoritative —
- * if the value is missing or malformed we render zeros rather than guess.
+ * if the value is missing or malformed we render an empty state rather than
+ * guess, and the prayer fields stay blank until a location has been set.
  */
 data class WidgetState(
     val count: Int = 0,
@@ -16,6 +17,9 @@ data class WidgetState(
     val percent: Int = 0,
     val lifetimeTotal: Int = 0,
     val streakDays: Int = 0,
+    val nextPrayerName: String = "",
+    val nextPrayerTime: String = "",
+    val nextPrayerTomorrow: Boolean = false,
 ) {
     companion object {
         private const val PREFS_FILE = "CapacitorStorage"
@@ -35,6 +39,9 @@ data class WidgetState(
                     percent = json.optInt("percent", 0).coerceIn(0, 100),
                     lifetimeTotal = json.optInt("lifetimeTotal", 0),
                     streakDays = json.optInt("streakDays", 0),
+                    nextPrayerName = json.optString("nextPrayerName", ""),
+                    nextPrayerTime = json.optString("nextPrayerTime", ""),
+                    nextPrayerTomorrow = json.optBoolean("nextPrayerTomorrow", false),
                 )
             } catch (e: Exception) {
                 // A corrupt mirror should render as empty, never crash the host.

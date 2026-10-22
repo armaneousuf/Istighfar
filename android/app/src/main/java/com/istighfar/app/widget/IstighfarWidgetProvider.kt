@@ -28,9 +28,8 @@ class IstighfarWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
     ) {
-        val state = WidgetState.load(context)
         appWidgetIds.forEach { id ->
-            appWidgetManager.updateAppWidget(id, companionBuildViews(context, state))
+            appWidgetManager.updateAppWidget(id, safeBuildViews(context))
         }
     }
 
@@ -41,10 +40,23 @@ class IstighfarWidgetProvider : AppWidgetProvider() {
         newOptions: Bundle,
     ) {
         // Re-render on resize so the tall/short variants swap cleanly.
-        appWidgetManager.updateAppWidget(appWidgetId, companionBuildViews(context, WidgetState.load(context)))
+        appWidgetManager.updateAppWidget(appWidgetId, safeBuildViews(context))
     }
 
+    /**
+     * A throw while building RemoteViews leaves the launcher showing
+     * "Problem loading widget" with no way back short of re-adding it. The
+     * counter is a convenience, so a failure degrades to a blank-but-valid card
+     * instead of a broken one.
+     */
     companion object {
+        private fun safeBuildViews(context: Context): RemoteViews =
+            try {
+                companionBuildViews(context, WidgetState.load(context))
+            } catch (e: Exception) {
+                companionBuildViews(context, WidgetState())
+            }
+
         const val EXTRA_ACTION = "widget_action"
 
         /** Push the mirrored state into every placed widget. */
@@ -54,8 +66,7 @@ class IstighfarWidgetProvider : AppWidgetProvider() {
                 ComponentName(context, IstighfarWidgetProvider::class.java),
             )
             if (ids.isEmpty()) return
-            val state = WidgetState.load(context)
-            ids.forEach { manager.updateAppWidget(it, companionBuildViews(context, state)) }
+            ids.forEach { manager.updateAppWidget(it, safeBuildViews(context)) }
         }
 
         private fun companionBuildViews(context: Context, state: WidgetState): RemoteViews {
@@ -70,15 +81,21 @@ class IstighfarWidgetProvider : AppWidgetProvider() {
                 R.id.widget_streak,
                 if (state.streakDays == 1) "1 day streak" else "${state.streakDays} day streak",
             )
-            views.setTextViewText(R.id.widget_lifetime, "${state.lifetimeTotal} lifetime")
+
+            // Prayer times come from the app's saved location. Until one exists
+            // the row prompts for it rather than showing a guessed time.
+            if (state.nextPrayerName.isBlank()) {
+                views.setTextViewText(R.id.widget_prayer_name, "Set location in app")
+                views.setTextViewText(R.id.widget_prayer_time, "")
+            } else {
+                val day = if (state.nextPrayerTomorrow) "Fajr · tomorrow" else state.nextPrayerName
+                views.setTextViewText(R.id.widget_prayer_name, day)
+                views.setTextViewText(R.id.widget_prayer_time, state.nextPrayerTime)
+            }
 
             views.setOnClickPendingIntent(
                 R.id.widget_root,
                 appIntent(context, action = null, requestCode = 0),
-            )
-            views.setOnClickPendingIntent(
-                R.id.widget_tap,
-                appIntent(context, action = "quick-tap", requestCode = 1),
             )
             return views
         }

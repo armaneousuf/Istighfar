@@ -3,10 +3,12 @@
   Home-screen widget layout.
 
   RemoteViews only supports a limited view set, so this is a flat, simple tree:
-  a rounded card with the count, goal progress, streak and a +1 button.
+  a rounded card with the count, goal progress, today's streak and the next
+  prayer.
 
-  Sizes: mode is "approximately" so the same layout serves every host size;
-  the percentage row and footer wrap naturally rather than swapping layouts.
+  Height is kept compact (2 launcher cells) by fixing the count to wrap_content
+  instead of letting it absorb leftover space, and by putting goal and streak on
+  one line.
 -->
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,12 +56,12 @@
     <TextView
     android:id="@+id/widget_count"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:gravity="start"
     android:text="0"
     android:textColor="@color/widgetText"
-    android:textSize="38sp"
+    android:textSize="40sp"
     android:textStyle="bold"
     android:includeFontPadding="false"
     android:maxLines="1"
@@ -72,79 +74,107 @@
     style="?android:attr/progressBarStyleHorizontal"
     android:layout_width="match_parent"
     android:layout_height="4dp"
+    android:layout_marginTop="8dp"
     android:max="100"
     android:progress="0"
     android:progressDrawable="@drawable/widget_progress"
   />
 
-    <!-- Footer: goal + streak, and the +1 action -->
+    <!-- Goal + streak on one row: both describe today, so they share a line. -->
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+  >
+
+        <TextView
+      android:id="@+id/widget_goal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Goal 1,000"
+      android:textColor="@color/widgetTextDim"
+      android:textSize="10sp"
+      android:maxLines="1"
+      android:ellipsize="end"
+    />
+
+        <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="6dp"
+      android:layout_marginEnd="6dp"
+      android:text="·"
+      android:textColor="@color/widgetTextDim"
+      android:textSize="10sp"
+    />
+
+        <TextView
+      android:id="@+id/widget_streak"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="0 day streak"
+      android:textColor="@color/widgetTextDim"
+      android:textSize="10sp"
+      android:maxLines="1"
+      android:ellipsize="end"
+    />
+    </LinearLayout>
+
+    <!-- Divider before the prayer line, so the two halves read separately.
+         Uses TextView, not View: a bare <View> is not in RemoteViews'
+         allowlist and makes the whole widget fail to inflate. -->
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@color/widgetLine"
+  />
+
+    <!-- Next prayer: name on the left, time on the right. -->
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:layout_marginTop="10dp"
   >
 
-        <LinearLayout
+        <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="NEXT"
+      android:textColor="@color/widgetTextDim"
+      android:textSize="10sp"
+      android:letterSpacing="0.12"
+      android:maxLines="1"
+    />
+
+        <TextView
+      android:id="@+id/widget_prayer_name"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:orientation="vertical"
-    >
-
-            <TextView
-        android:id="@+id/widget_goal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Goal 1,000"
-        android:textColor="@color/widgetTextDim"
-        android:textSize="10sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-      />
-
-            <TextView
-        android:id="@+id/widget_streak"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="0 day streak"
-        android:textColor="@color/widgetTextDim"
-        android:textSize="10sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-      />
-        </LinearLayout>
+      android:layout_marginStart="6dp"
+      android:text="Set location in app"
+      android:textColor="@color/widgetText"
+      android:textSize="12sp"
+      android:textStyle="bold"
+      android:maxLines="1"
+      android:ellipsize="end"
+    />
 
         <TextView
-      android:id="@+id/widget_tap"
+      android:id="@+id/widget_prayer_time"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:paddingStart="14dp"
-      android:paddingEnd="14dp"
-      android:paddingTop="7dp"
-      android:paddingBottom="7dp"
-      android:background="@drawable/widget_tap_button"
-      android:text="+1"
-      android:contentDescription="@string/widget_tap_plus_one"
-      android:textColor="@color/widgetBgDeep"
-      android:textSize="13sp"
+      android:text=""
+      android:textColor="@color/widgetAccent"
+      android:textSize="12sp"
       android:textStyle="bold"
       android:maxLines="1"
     />
     </LinearLayout>
-
-    <!-- Lifetime total is only meaningful once there is data; kept subtle. -->
-    <TextView
-    android:id="@+id/widget_lifetime"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:text="0 lifetime"
-    android:textColor="@color/widgetTextDim"
-    android:textSize="9sp"
-    android:maxLines="1"
-    android:ellipsize="end"
-  />
 </LinearLayout>

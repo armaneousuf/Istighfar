@@ -32,11 +32,15 @@ class MainActivity : BridgeActivity() {
 
     override fun onResume() {
         super.onResume()
-        IstighfarWidgetProvider.refreshAll(this)
+        refreshWidgets()
     }
 
     override fun onPause() {
         super.onPause()
+        refreshWidgets()
+    }
+
+    private fun refreshWidgets() {
         IstighfarWidgetProvider.refreshAll(this)
     }
 
