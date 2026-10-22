@@ -13,6 +13,7 @@ import {
 } from "../core/dom.js";
 import { setTarget, applySelectedDua } from "../core/counter.js";
 import { hapticTap } from "../services/haptics.js";
+import { animateModalIn, animateModalOut } from "../core/motion.js";
 
 const APP_LAST_UPDATED = "2026-10-08";
 
@@ -59,7 +60,7 @@ export function setupSettings() {
     btn.addEventListener("click", (e) => {
       const button = e.currentTarget;
       if (setTarget(button.getAttribute("data-target")))
-        targetModal.classList.add("hidden");
+        animateModalOut(targetModal);
     });
   });
 
@@ -67,20 +68,26 @@ export function setupSettings() {
     goalChipBtn.addEventListener("click", () => {
       customTargetInput.value = getState().target;
       targetModal.classList.remove("hidden");
+      animateModalIn(targetModal);
     });
   }
 
   if (cancelTargetBtn) {
-    cancelTargetBtn.addEventListener("click", () =>
-      targetModal.classList.add("hidden"),
-    );
+    cancelTargetBtn.addEventListener("click", () => animateModalOut(targetModal));
+  }
+
+  // Tapping the dimmed backdrop dismisses the goal sheet.
+  if (targetModal) {
+    targetModal.addEventListener("click", (e) => {
+      if (e.target === targetModal) animateModalOut(targetModal);
+    });
   }
 
   if (applyTargetBtn) {
     applyTargetBtn.addEventListener("click", () => {
       customTargetInput.setCustomValidity("");
       if (setTarget(customTargetInput.value)) {
-        targetModal.classList.add("hidden");
+        animateModalOut(targetModal);
       } else {
         customTargetInput.setCustomValidity(
           "Choose a whole-number goal between 1 and 1,000,000.",

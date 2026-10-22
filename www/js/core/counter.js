@@ -12,6 +12,7 @@ import { RANKS } from "../data/milestones.js";
 import {
   counterDisplay,
   focusCount,
+  focusGoal,
   lifetimeTotalDisplay,
   progressRing,
   tapBtn,
@@ -35,6 +36,13 @@ import {
   anonymousBanner,
 } from "./dom.js";
 import { playClickSound, playMilestoneSound } from "./audio.js";
+import {
+  animateNumber,
+  flashStage,
+  popCounter,
+  setBarWidth,
+  setRingProgress,
+} from "./motion.js";
 import { hapticTap } from "../services/haptics.js";
 import { renderBadgesList, checkMilestones } from "../features/badges.js";
 import {
@@ -101,7 +109,7 @@ function updateRankDisplay() {
     if (modalRankNumber) modalRankNumber.textContent = "--";
     if (modalRankOf) modalRankOf.textContent = "";
     if (modalXpText) modalXpText.textContent = "Session Only";
-    if (xpProgressBar) xpProgressBar.style.width = "0%";
+    if (xpProgressBar) setBarWidth(xpProgressBar, 0);
     if (nextLevelLabel) nextLevelLabel.textContent = "Nothing is saved in this session";
     if (rankPips) rankPips.innerHTML = "";
     return;
@@ -132,7 +140,7 @@ function updateRankDisplay() {
     nextThreshold === Infinity
       ? 100
       : Math.min(100, (effectiveTotal / nextThreshold) * 100);
-  if (xpProgressBar) xpProgressBar.style.width = `${xpPercent}%`;
+  if (xpProgressBar) setBarWidth(xpProgressBar, xpPercent);
   if (nextLevelLabel) {
     nextLevelLabel.textContent =
       nextThreshold === Infinity
@@ -160,12 +168,29 @@ function renderRankPips(currentIndex) {
 
 
 
-export function updateProgress() {
+// `animateCount`: undo/reset move the number in big jumps, so count it rather
+// than snapping. Per-tap updates stay instant and get a small pop instead.
+// `tap`: a real tap, so the number gets a little kinetic feedback.
+export function updateProgress({ animateCount = false, tap = false } = {}) {
   const state = getState();
   const isAnonymous = getIsAnonymous();
   const currentDisplayCount = isAnonymous ? getAnonymousCount() : state.count;
-  counterDisplay.textContent = currentDisplayCount.toLocaleString();
+
+  if (animateCount) {
+    const shown = parseInt(counterDisplay.textContent.replace(/[^0-9]/g, ""), 10);
+    animateNumber(counterDisplay, Number.isNaN(shown) ? 0 : shown, currentDisplayCount);
+  } else {
+    counterDisplay.textContent = currentDisplayCount.toLocaleString();
+  }
   if (focusCount) focusCount.textContent = currentDisplayCount.toLocaleString();
+  if (focusGoal) {
+    const pct =
+      state.target > 0
+        ? Math.min(100, Math.floor((currentDisplayCount / state.target) * 100))
+        : 0;
+    focusGoal.textContent = `${pct}% of ${state.target.toLocaleString()}`;
+    focusGoal.classList.toggle("reached", pct >= 100);
+  }
 
   if (lifetimeTotalDisplay) {
     lifetimeTotalDisplay.textContent = isAnonymous
@@ -175,7 +200,12 @@ export function updateProgress() {
 
   const progress = Math.min(currentDisplayCount / state.target, 1);
   const offset = ringCircumference - progress * ringCircumference;
-  progressRing.style.strokeDashoffset = offset;
+  setRingProgress(progressRing, offset);
+
+  if (tap) {
+    popCounter(counterDisplay);
+    popCounter(targetLabel);
+  }
 
   if (currentDisplayCount >= state.target && state.target > 0) {
     tapBtn.classList.add("glow-pulse");
@@ -249,7 +279,8 @@ export function handleTap() {
     }
     playClickSound(Math.min(300, Math.floor((next % 100) / 10) * 8));
     hapticTap(state.hapticsEnabled);
-    updateProgress();
+    updateProgress({ tap: true });
+    if (next === state.target) flashStage(document.querySelector(".hp-ring"));
     return;
   }
 
@@ -270,7 +301,8 @@ export function handleTap() {
   checkMilestones();
   playClickSound(Math.min(300, Math.floor((state.count % 100) / 10) * 8));
   hapticTap(state.hapticsEnabled);
-  updateProgress();
+  updateProgress({ tap: true });
+  if (state.count === state.target) flashStage(document.querySelector(".hp-ring"));
   saveState();
 }
 
@@ -280,7 +312,7 @@ export function handleUndo() {
   if (getIsAnonymous()) {
     if (getAnonymousCount() > 0) {
       setAnonymousCount(getAnonymousCount() - 1);
-      updateProgress();
+      updateProgress({ animateCount: true });
     }
     return;
   }
@@ -296,7 +328,7 @@ export function handleUndo() {
     }
     updateStreak();
 
-    updateProgress();
+    updateProgress({ animateCount: true });
     saveState();
   }
 }
@@ -306,7 +338,7 @@ export function handleReset() {
 
   if (getIsAnonymous()) {
     setAnonymousCount(0);
-    updateProgress();
+    updateProgress({ animateCount: true });
     return;
   }
 
@@ -316,7 +348,7 @@ export function handleReset() {
   );
   if (!confirmed) return;
   state.count = 0;
-  updateProgress();
+  updateProgress({ animateCount: true });
   saveState();
 }
 

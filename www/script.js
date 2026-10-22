@@ -42,7 +42,17 @@ import {
   disableFocusMode,
   setupBottomNavbar,
 } from "./js/ui/focus-nav.js";
-import { applyInsightsLock, setupSettings, updateLastUpdatedLabel } from "./js/ui/settings.js";
+import {
+  applyInsightsLock,
+  setupSettings,
+  updateLastUpdatedLabel,
+} from "./js/ui/settings.js";
+import {
+  animateBoot,
+  animateHomeEntrance,
+  animateLoadingOut,
+  motionEnabled,
+} from "./js/core/motion.js";
 
 function wireEventListeners() {
   bindGuardedTap(tapBtn, handleTap);
@@ -86,6 +96,7 @@ async function initApp() {
   const loadingErrorText = document.getElementById("loadingErrorText");
 
   const startTime = Date.now();
+  animateBoot(loadingState);
 
   try {
     setState(await loadState());
@@ -107,6 +118,8 @@ async function initApp() {
     wireEventListeners();
     renderBadgesList();
     renderNameOfTheDay();
+    // First paint is a snap, not a sweep: the ring starts where the data says.
+    // The whole entrance (loader out, then home assembling) runs together.
     updateProgress();
     updateLastUpdatedLabel();
 
@@ -116,11 +129,7 @@ async function initApp() {
       const delay = Math.max(0, minDisplay - elapsed);
 
       setTimeout(() => {
-        loadingState.style.pointerEvents = "none";
-        loadingState.style.opacity = "0";
-        setTimeout(() => {
-          loadingState.classList.add("hidden");
-        }, 300);
+        animateLoadingOut(loadingState, animateHomeEntrance);
       }, delay);
     }
   } catch (err) {
@@ -131,6 +140,9 @@ async function initApp() {
         err.message || "Unable to load your saved progress.";
   }
 }
+
+// Lets the stylesheet stand down its CSS view fade when GSAP is in charge.
+if (motionEnabled) document.body.classList.add("gsap-ready");
 
 installAudioPrimer();
 initApp();

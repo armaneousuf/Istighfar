@@ -376,6 +376,24 @@ body.focus-mode .hide-in-focus {
     color: var(--accent-color);
   }
 }
+/* Goal progress under the big count, in the accent so it reads as the one
+   piece of information that changes as the session goes. */
+.fm-goal {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--accent-color) 80%, #ffffff);
+}
+.fm-goal.reached {
+  color: #fcd34d;
+}
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .fm-goal {
+    color: var(--accent-color);
+  }
+}
 
 /* Anonymous Mode simplification */
 body.anonymous-mode .hide-in-anonymous {
@@ -391,6 +409,10 @@ body.anonymous-mode .hide-in-anonymous {
 /* Views */
 .view {
   animation: fadeIn 0.18s ease;
+}
+/* GSAP takes over view transitions once it boots. */
+.gsap-ready .view {
+  animation: none;
 }
 @keyframes fadeIn {
   from {
@@ -1114,9 +1136,10 @@ body.anonymous-mode .hide-in-anonymous {
 .hp-ring-track {
   stroke: rgba(255, 255, 255, 0.07);
 }
+/* Motion is driven by GSAP (js/core/motion.js); a CSS transition here would
+   fight the tween and double-smooth every tap. */
 .hp-ring-fill {
   stroke: var(--accent-color);
-  transition: stroke-dashoffset 0.3s ease;
 }
 .hp-tap {
   position: absolute;
@@ -1502,6 +1525,7 @@ body.anonymous-mode .hide-in-anonymous {
 @media (prefers-reduced-motion: reduce) {
   .hp-ring-fill,
   .hp-count,
+  .view,
   .st-chev {
     transition: none;
   }

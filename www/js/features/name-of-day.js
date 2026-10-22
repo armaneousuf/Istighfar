@@ -10,11 +10,16 @@ import {
   nameOfDayMeaning,
   nameOfDayTrack,
 } from "../core/dom.js";
+import {
+  animateModalIn,
+  animateModalOut,
+  setBarWidth,
+} from "../core/motion.js";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 const close = () => {
-  if (nameOfDayModal) nameOfDayModal.classList.add("hidden");
+  if (nameOfDayModal) animateModalOut(nameOfDayModal);
 };
 
 // Whole calendar days between two YYYY-MM-DD strings. Returns 0 when the stored
@@ -79,7 +84,7 @@ export function renderNameOfTheDay() {
   nameOfDayMeaning.textContent = name.meaning;
 
   if (nameOfDayTrack) {
-    nameOfDayTrack.style.width = `${((index + 1) / total) * 100}%`;
+    setBarWidth(nameOfDayTrack, ((index + 1) / total) * 100);
   }
 }
 
@@ -91,6 +96,7 @@ export function setupNameOfDay() {
   nameOfDayBtn.addEventListener("click", () => {
     renderNameOfTheDay();
     nameOfDayModal.classList.remove("hidden");
+    animateModalIn(nameOfDayModal);
   });
 
   if (closeNameOfDayModal) {

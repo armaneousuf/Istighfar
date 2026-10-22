@@ -28,6 +28,7 @@ export const focusBtn = getEl("focusBtn");
 export const focusOverlay = getEl("focusOverlay");
 export const exitFocusBtn = getEl("exitFocusBtn");
 export const focusCount = getEl("focusCount");
+export const focusGoal = getEl("focusGoal");
 
 export const infoModal = getEl("infoModal");
 export const infoBtn = getEl("infoBtn");

@@ -15,6 +15,7 @@ import {
   badgesHint,
 } from "../core/dom.js";
 import { playMilestoneSound } from "../core/audio.js";
+import { animateToastIn, animateToastOut } from "../core/motion.js";
 
 function spawnFloatingText(text) {
   const el = document.createElement("div");
@@ -33,6 +34,7 @@ function showMilestoneToast(milestone) {
   toastDesc.textContent = milestone.desc;
 
   toastNotification.classList.remove("hidden");
+  animateToastIn(toastNotification);
 
   // Restart the dismiss bar on repeat unlocks inside the same window.
   const bar = toastNotification.querySelector(".toast-bar > div");
@@ -43,9 +45,7 @@ function showMilestoneToast(milestone) {
   }
 
   clearTimeout(toastHideTimer);
-  toastHideTimer = setTimeout(() => {
-    toastNotification.classList.add("hidden");
-  }, 4500);
+  toastHideTimer = setTimeout(() => animateToastOut(toastNotification), 4500);
 }
 
 export function renderBadgesList() {

@@ -1,6 +1,7 @@
 import { getFormattedDate } from "../constants.js";
 import { getState } from "../core/app-state.js";
 import { getRecentDays, getMonthTotal } from "../core/dates.js";
+import { setBarWidth } from "../core/motion.js";
 import {
   weeklyChartCanvas,
   heatmapGrid,
@@ -169,7 +170,7 @@ export function renderInsightSummary() {
   if (insightTodayPercent) {
     insightTodayPercent.textContent = `${displayPercentage}%`;
   }
-  if (insightTodayBar) insightTodayBar.style.width = `${percentage}%`;
+  if (insightTodayBar) setBarWidth(insightTodayBar, percentage);
   if (insightWeekTotal)
     insightWeekTotal.textContent = weeklyTotal.toLocaleString();
   setChange(insightWeekChange, weeklyTotal, previousWeeklyTotal);

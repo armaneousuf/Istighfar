@@ -10,6 +10,7 @@ import {
   renderHeatmap,
 } from "../features/analytics.js";
 import { loadPrayerTimes } from "../features/prayer-view.js";
+import { animateViewIn, animateViewOut } from "../core/motion.js";
 
 export function enableFocusMode() {
   const state = getState();
@@ -34,6 +35,8 @@ export function setupBottomNavbar({ onCloseFocus }) {
   navButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetViewId = `view-${btn.getAttribute("data-view")}`;
+      const currentView = document.querySelector("#viewContainer .view:not(.hidden)");
+      const nextView = document.getElementById(targetViewId);
 
       navButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
@@ -42,9 +45,17 @@ export function setupBottomNavbar({ onCloseFocus }) {
         if (v.id === targetViewId) {
           v.classList.remove("hidden");
         } else {
-          v.classList.add("hidden");
+          if (v !== currentView) v.classList.add("hidden");
         }
       });
+
+      // The outgoing view fades away while the incoming one rises in; it is
+      // hidden only after its tween ends so both can overlap.
+      if (currentView && currentView !== nextView) {
+        animateViewOut(currentView);
+        setTimeout(() => currentView.classList.add("hidden"), 130);
+      }
+      if (nextView) animateViewIn(nextView);
 
       if (targetViewId === "view-home") {
         header.classList.remove("hide-nav-buttons");
